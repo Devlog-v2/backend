@@ -1,4 +1,4 @@
-package com.project.hexagonal.domain.account.presentation.data.enumType
+package com.project.hexagonal.domain.account.adapter.web.data.enumType
 
 import org.springframework.security.core.GrantedAuthority
 

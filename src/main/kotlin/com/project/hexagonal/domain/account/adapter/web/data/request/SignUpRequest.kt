@@ -1,4 +1,4 @@
-package com.project.hexagonal.domain.account.presentation.data.request
+package com.project.hexagonal.domain.account.adapter.web.data.request
 
 import com.project.hexagonal.domain.account.Account
 
