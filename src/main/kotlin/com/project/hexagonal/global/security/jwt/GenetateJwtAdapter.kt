@@ -19,19 +19,12 @@ class GenetateJwtAdapter(
     private val refreshTokenRepository: RefreshTokenRepository
 ): GenetateJwtPort {
 
-    companion object {
-        const val ACCESS_TYPE = "access"
-        const val REFRESH_TYPE = "refresh"
-        const val ACCESS_EXP =  1000 * 60 * 60 * 3L  // 3 hour
-        const val REFRESH_EXP = 7200 // 1 week
-    }
-
     @Transactional(rollbackFor = [Exception::class])
     override fun generate(email: String): SignInResponse {
         val accessToken = genrateAccessToken(email, jwtProperties.accessSecret)
         val refreshToken = genrateRefreshToken(email, jwtProperties.refreshSecret)
         val accessTokenExpiredAt = getAccessTokenExpiredAt()
-        refreshTokenRepository.save(RefreshTokenEntity(refreshToken, email, REFRESH_EXP))
+        refreshTokenRepository.save(RefreshTokenEntity(refreshToken, email, jwtProperties.refreshExp))
         return SignInResponse(accessToken, refreshToken, accessTokenExpiredAt)
     }
 
@@ -39,21 +32,21 @@ class GenetateJwtAdapter(
         Jwts.builder()
             .signWith(secret, SignatureAlgorithm.HS256)
             .setSubject(sub)
-            .claim("type", ACCESS_TYPE)
+            .claim("type", jwtProperties.accessType)
             .setIssuedAt(Date())
-            .setExpiration(Date(System.currentTimeMillis() + ACCESS_EXP * 1000))
+            .setExpiration(Date(System.currentTimeMillis() + jwtProperties.accessExp * 1000))
             .compact()
 
     private fun genrateRefreshToken(sub: String, secret: Key): String =
         Jwts.builder()
             .signWith(secret, SignatureAlgorithm.HS256)
             .setSubject(sub)
-            .claim("type", REFRESH_TYPE)
+            .claim("type", jwtProperties.refreshType)
             .setIssuedAt(Date())
-            .setExpiration(Date(System.currentTimeMillis() + REFRESH_EXP * 1000))
+            .setExpiration(Date(System.currentTimeMillis() + jwtProperties.refreshExp * 1000))
             .compact()
 
     private fun getAccessTokenExpiredAt(): LocalDateTime =
-        LocalDateTime.now().plusSeconds(ACCESS_EXP + 1000)
+        LocalDateTime.now().plusSeconds(jwtProperties.accessExp + 1000)
 
 }
