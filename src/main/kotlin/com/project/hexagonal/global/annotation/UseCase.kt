@@ -1,9 +1,9 @@
 package com.project.hexagonal.global.annotation
 
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.CLASS)
-@Service
+@Component
 annotation class
 UseCase
