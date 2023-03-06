@@ -4,11 +4,11 @@ import com.project.hexagonal.domain.account.RefreshToken
 import com.project.hexagonal.domain.account.adapter.persistence.entity.toDomain
 import com.project.hexagonal.domain.account.adapter.persistence.repository.RefreshTokenRepository
 import com.project.hexagonal.domain.account.application.port.RefreshTokenPort
+import com.project.hexagonal.global.annotation.ReadOnlyAdapter
 import com.project.hexagonal.global.security.jwt.exception.InvalidTokenException
 import org.springframework.data.repository.findByIdOrNull
-import org.springframework.stereotype.Component
 
-@Component
+@ReadOnlyAdapter
 class RefreshTokenPersistenceAdapter(
     private val refreshTokenRepository: RefreshTokenRepository
 ): RefreshTokenPort {

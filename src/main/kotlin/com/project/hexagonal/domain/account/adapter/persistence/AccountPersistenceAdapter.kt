@@ -1,16 +1,16 @@
 package com.project.hexagonal.domain.account.adapter.persistence
 
 import com.project.hexagonal.domain.account.Account
-import com.project.hexagonal.domain.account.application.port.AccountPort
 import com.project.hexagonal.domain.account.adapter.persistence.entity.AccountEntity
 import com.project.hexagonal.domain.account.adapter.persistence.entity.toDomain
 import com.project.hexagonal.domain.account.adapter.persistence.repository.AccountRepository
+import com.project.hexagonal.domain.account.application.port.AccountPort
 import com.project.hexagonal.domain.account.exception.AccountNotFoundException
 import com.project.hexagonal.domain.account.exception.DuplicateEmailException
 import com.project.hexagonal.domain.account.toEntity
-import org.springframework.stereotype.Component
+import com.project.hexagonal.global.annotation.Adapter
 
-@Component
+@Adapter
 class AccountPersistenceAdapter(
     private val accountRepository: AccountRepository,
 ): AccountPort {
