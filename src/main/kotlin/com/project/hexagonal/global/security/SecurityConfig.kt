@@ -1,8 +1,8 @@
 package com.project.hexagonal.global.security
 
-import com.project.hexagonal.global.filter.ExceptionHandlerFilter
-import com.project.hexagonal.global.filter.JwtRequestFilter
-import com.project.hexagonal.global.security.handler.CustomAccessDenideHandler
+import com.project.hexagonal.domain.account.application.port.JwtParserPort
+import com.project.hexagonal.global.filter.config.FilterConfig
+import com.project.hexagonal.global.security.handler.CustomAuthenticationEntryPoint
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -12,13 +12,11 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
 @EnableWebSecurity
 class SecurityConfig(
-    private val jwtRequestFilter: JwtRequestFilter,
-    private val exceptionHandlerFilter: ExceptionHandlerFilter
+    private val jwtParserPort: JwtParserPort
 ) {
 
     @Bean
@@ -34,20 +32,18 @@ class SecurityConfig(
             .and()
 
             .authorizeRequests()
-            .antMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()
-            .antMatchers(HttpMethod.PATCH, "/api/v1/auth/**").permitAll()
-
-            .antMatchers("/api/v1/admin/**").hasRole("ROLE_ADMIN")
-            .antMatchers("/api/v1/user/**").hasRole("ROLE_USER")
+            .antMatchers(HttpMethod.POST, "/api/v1/auth/signup").permitAll()
+            .antMatchers(HttpMethod.POST, "/api/v1/auth/signin").permitAll()
+            .antMatchers(HttpMethod.PATCH, "/api/v1/auth/reissue").permitAll()
             .anyRequest().authenticated()
             .and()
 
             .exceptionHandling()
-            .accessDeniedHandler(CustomAccessDenideHandler())
+            .authenticationEntryPoint(CustomAuthenticationEntryPoint())
             .and()
 
-            .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter::class.java)
-            .addFilterBefore(exceptionHandlerFilter, JwtRequestFilter::class.java)
+            .apply(FilterConfig(jwtParserPort))
+            .and()
             .build()
 
     @Bean
