@@ -1,9 +1,9 @@
-package com.project.hexagonal.domain.account.adapter.web
+package com.project.hexagonal.domain.account.adapter.presentation
 
-import com.project.hexagonal.domain.account.adapter.web.data.request.SignInRequest
+import com.project.hexagonal.domain.account.adapter.presentation.data.request.SignInRequest
 import com.project.hexagonal.domain.account.application.usecase.SignUpUseCase
-import com.project.hexagonal.domain.account.adapter.web.data.request.SignUpRequest
-import com.project.hexagonal.domain.account.adapter.web.data.response.SignInResponse
+import com.project.hexagonal.domain.account.adapter.presentation.data.request.SignUpRequest
+import com.project.hexagonal.domain.account.adapter.presentation.data.response.SignInResponse
 import com.project.hexagonal.domain.account.application.usecase.ReissueTokenUseCase
 import com.project.hexagonal.domain.account.application.usecase.SignInUseCase
 import org.springframework.http.HttpStatus
@@ -23,12 +23,12 @@ class AccountAuthWebAdapter(
     private val reissueTokenUseCase: ReissueTokenUseCase
 ) {
 
-    @PostMapping("signup")
+    @PostMapping("/signup")
     fun signUp(@RequestBody request: SignUpRequest): ResponseEntity<Void> =
         signUpUseCase.execute(request)
             .let { ResponseEntity.status(HttpStatus.CREATED).build() }
 
-    @PostMapping("signin")
+    @PostMapping("/signin")
     fun signIn(@RequestBody request: SignInRequest): ResponseEntity<SignInResponse> =
         signInUseCase.execute(request)
             .let { ResponseEntity.ok(it) }

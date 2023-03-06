@@ -1,4 +1,4 @@
-package com.project.hexagonal.domain.account.adapter.web.data.response
+package com.project.hexagonal.domain.account.adapter.presentation.data.response
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.time.LocalDateTime

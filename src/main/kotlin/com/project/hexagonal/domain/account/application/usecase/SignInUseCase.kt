@@ -1,7 +1,7 @@
 package com.project.hexagonal.domain.account.application.usecase
 
-import com.project.hexagonal.domain.account.adapter.web.data.request.SignInRequest
-import com.project.hexagonal.domain.account.adapter.web.data.response.SignInResponse
+import com.project.hexagonal.domain.account.adapter.presentation.data.request.SignInRequest
+import com.project.hexagonal.domain.account.adapter.presentation.data.response.SignInResponse
 import com.project.hexagonal.domain.account.application.port.GenetateJwtPort
 import com.project.hexagonal.domain.account.application.port.PasswordEncodePort
 import com.project.hexagonal.domain.account.application.port.QueryAccountPort
@@ -17,7 +17,7 @@ class SignInUseCase(
 
     fun execute(request: SignInRequest): SignInResponse {
         val account = accountPort.findAccountByEmail(request.email)
-        if (!passwordEncodePort.match(account.encodedPassword, request.password)) {
+        if (!passwordEncodePort.match(request.password, account.encodedPassword)) {
             throw PasswordNotCorrectException()
         }
         return genetateJwtPort.generate(account.email)
