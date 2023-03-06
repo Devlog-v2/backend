@@ -11,20 +11,18 @@ import java.security.Key
 class JwtProperties(
     accessSecret: String,
     refreshSecret: String,
-    accessType: String,
-    refreshType: String,
-    accessExp: Long,
-    refreshExp: Int,
-    tokenPrefix: String
+    val accessExp: Int,
+    val refreshExp: Int
 ) {
 
     val accessSecret: Key = Keys.hmacShaKeyFor(accessSecret.toByteArray(StandardCharsets.UTF_8))
     val refreshSecret: Key = Keys.hmacShaKeyFor(refreshSecret.toByteArray(StandardCharsets.UTF_8))
 
-    val accessType = "access"
-    val refreshType = "refresh"
-    val accessExp = 1000 * 60 * 60 * 3L
-    val refreshExp = 7200
-    val tokenPrefix = "Bearer "
+    companion object {
+        const val accessType = "access"
+        const val refreshType = "refresh"
+        const val tokenPrefix = "Bearer "
+        const val tokenHeader = "Authorization"
+    }
 
 }
