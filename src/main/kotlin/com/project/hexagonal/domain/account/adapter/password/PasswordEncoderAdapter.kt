@@ -11,6 +11,6 @@ class PasswordEncoderAdapter(
 
     override fun encode(password: String): String = passwordEncoder.encode(password)
 
-    override fun match(encodedPassword: String, rawPassword: String): Boolean = passwordEncoder.matches(encodedPassword, rawPassword)
+    override fun match(rawPassword: String, encodedPassword: String): Boolean = passwordEncoder.matches(rawPassword, encodedPassword)
 
 }
