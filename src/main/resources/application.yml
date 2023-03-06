@@ -4,6 +4,9 @@ spring:
     url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+  redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
   jpa:
     hibernate:
       ddl-auto: update
@@ -14,3 +17,5 @@ spring:
 jwt:
   accessSecret: ${JWT_ACCESS_SECRET}
   refreshSecret: ${JWT_REFRESH_SECRET}
+  accessExp: ${JWT_ACCESS_EXP}
+  refreshExp: ${JWT_REFRESH_EXP}
