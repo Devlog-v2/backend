@@ -1,7 +1,7 @@
 package com.project.hexagonal.domain.account.application.usecase
 
-import com.project.hexagonal.domain.account.adapter.web.data.request.SignUpRequest
-import com.project.hexagonal.domain.account.adapter.web.data.request.toDomain
+import com.project.hexagonal.domain.account.adapter.presentation.data.request.SignUpRequest
+import com.project.hexagonal.domain.account.adapter.presentation.data.request.toDomain
 import com.project.hexagonal.domain.account.application.port.AccountPort
 import com.project.hexagonal.domain.account.application.port.PasswordEncodePort
 import com.project.hexagonal.global.annotation.UseCase

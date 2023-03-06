@@ -3,7 +3,7 @@ package com.project.hexagonal.global.security.jwt
 import com.project.hexagonal.domain.account.adapter.persistence.entity.RefreshTokenEntity
 import com.project.hexagonal.domain.account.adapter.persistence.repository.RefreshTokenRepository
 import com.project.hexagonal.domain.account.application.port.GenetateJwtPort
-import com.project.hexagonal.domain.account.adapter.web.data.response.SignInResponse
+import com.project.hexagonal.domain.account.adapter.presentation.data.response.SignInResponse
 import com.project.hexagonal.global.security.jwt.property.JwtProperties
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
@@ -32,7 +32,7 @@ class GenetateJwtAdapter(
         Jwts.builder()
             .signWith(secret, SignatureAlgorithm.HS256)
             .setSubject(sub)
-            .claim("type", jwtProperties.accessType)
+            .claim("type", JwtProperties.accessType)
             .setIssuedAt(Date())
             .setExpiration(Date(System.currentTimeMillis() + jwtProperties.accessExp * 1000))
             .compact()
@@ -41,12 +41,12 @@ class GenetateJwtAdapter(
         Jwts.builder()
             .signWith(secret, SignatureAlgorithm.HS256)
             .setSubject(sub)
-            .claim("type", jwtProperties.refreshType)
+            .claim("type", JwtProperties.refreshType)
             .setIssuedAt(Date())
             .setExpiration(Date(System.currentTimeMillis() + jwtProperties.refreshExp * 1000))
             .compact()
 
     private fun getAccessTokenExpiredAt(): LocalDateTime =
-        LocalDateTime.now().plusSeconds(jwtProperties.accessExp + 1000)
+        LocalDateTime.now().plusSeconds(jwtProperties.accessExp.toLong())
 
 }

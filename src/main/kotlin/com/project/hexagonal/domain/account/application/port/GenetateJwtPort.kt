@@ -1,6 +1,6 @@
 package com.project.hexagonal.domain.account.application.port
 
-import com.project.hexagonal.domain.account.adapter.web.data.response.SignInResponse
+import com.project.hexagonal.domain.account.adapter.presentation.data.response.SignInResponse
 
 interface GenetateJwtPort {
 
