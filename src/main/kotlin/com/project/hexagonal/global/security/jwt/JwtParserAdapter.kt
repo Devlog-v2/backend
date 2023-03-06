@@ -1,7 +1,6 @@
 package com.project.hexagonal.global.security.jwt
 
 import com.project.hexagonal.domain.account.application.port.JwtParserPort
-import com.project.hexagonal.global.security.jwt.exception.InvalidTokenTypeException
 import com.project.hexagonal.global.security.jwt.property.JwtProperties
 import com.project.hexagonal.global.security.principle.AccountDetailsService
 import io.jsonwebtoken.Claims
@@ -19,18 +18,16 @@ class JwtParserAdapter(
 ): JwtParserPort {
 
     override fun parseAccessToken(request: HttpServletRequest): String? =
-        request.getHeader("Authentication")
-            .let { if (it.startsWith(jwtProperties.tokenPrefix)) it.replace(jwtProperties.tokenPrefix, "") else throw InvalidTokenTypeException() }
+        request.getHeader(JwtProperties.tokenHeader)
+            .let { it ?: return null }
+            .let { if (it.startsWith(JwtProperties.tokenPrefix)) it.replace(JwtProperties.tokenPrefix, "") else null }
+
+    override fun parseRefershToken(refreshToken: String): String? =
+            if (refreshToken.startsWith(JwtProperties.tokenPrefix)) refreshToken.replace(JwtProperties.tokenPrefix, "") else null
 
     override fun authentication(accessToken: String): Authentication =
         accountDetailsService.loadUserByUsername(getTokenBody(accessToken, jwtProperties.accessSecret).subject)
             .let { UsernamePasswordAuthenticationToken(it, "", it.authorities) }
-
-
-
-    override fun parseRefershToken(refreshToken: String): String =
-        if (refreshToken.startsWith(jwtProperties.tokenPrefix)) refreshToken.replace(jwtProperties.tokenPrefix, "") else throw InvalidTokenTypeException()
-
 
     override fun isRefreshTokenExpired(refreshToken: String): Boolean {
         runCatching {
