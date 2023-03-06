@@ -18,14 +18,11 @@ class AccountPersistenceAdapter(
     override fun saveAccount(account: Account, encodedPassword: String): AccountEntity =
         accountRepository.save(account.toEntity(encodedPassword))
 
-    override fun existsAccountByEmail(email: String) {
-        if (accountRepository.existsByEmail(email)) {
-            throw DuplicateEmailException()
-        }
-    }
+    override fun existsAccountByEmail(email: String): Boolean =
+        accountRepository.existsByEmail(email)
 
-    override fun findAccountByEmail(email: String): Account =
+    override fun findAccountByEmail(email: String): Account? =
         accountRepository.findByEmail(email)
-            .let { it ?: throw AccountNotFoundException() }.toDomain()
+            .let { it ?: return null }.toDomain()
 
 }
