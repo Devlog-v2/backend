@@ -1,7 +1,7 @@
 package com.project.hexagonal.domain.account
 
 import com.project.hexagonal.domain.account.adapter.persistence.entity.AccountEntity
-import com.project.hexagonal.domain.account.adapter.web.data.enumType.Autority
+import com.project.hexagonal.domain.account.adapter.presentation.data.enumType.Autority
 import java.util.*
 
 data class Account(
@@ -14,5 +14,5 @@ fun Account.toEntity(encodedPassword: String): AccountEntity = AccountEntity(
     email = email,
     encodedPassword = encodedPassword,
     name = name,
-    authority = Collections.singletonList(Autority.ROLE_USER)
+    authority = Collections.singletonList(Autority.ROLE_ACCOUNT)
 )
