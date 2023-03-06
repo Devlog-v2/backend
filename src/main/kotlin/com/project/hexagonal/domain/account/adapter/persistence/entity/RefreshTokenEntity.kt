@@ -4,13 +4,14 @@ import com.project.hexagonal.domain.account.RefreshToken
 import org.springframework.data.annotation.Id
 import org.springframework.data.redis.core.RedisHash
 import org.springframework.data.redis.core.TimeToLive
+import java.util.concurrent.TimeUnit
 
 @RedisHash("refresh_token")
-class RefreshTokenEntity(
+data class RefreshTokenEntity(
     @Id
     val refreshToken: String,
     val accountEmail: String,
-    @TimeToLive
+    @TimeToLive(unit = TimeUnit.SECONDS)
     val expiredAt: Int
 )
 
