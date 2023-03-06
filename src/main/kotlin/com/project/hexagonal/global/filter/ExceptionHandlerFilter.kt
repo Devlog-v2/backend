@@ -25,7 +25,6 @@ class ExceptionHandlerFilter: OncePerRequestFilter() {
                 is ExpiredJwtException -> exceptionToReseponse(ErrorCode.EXPIRED_ACCESS_TOKEN, response)
                 is JwtException -> exceptionToReseponse(ErrorCode.INVALID_TOKEN, response)
                 is HexagonalException -> exceptionToReseponse(exception.errorCode, response)
-                is Exception -> exceptionToReseponse(ErrorCode.INVERVAL_SERVER_ERROR, response)
             }
         }
     }
