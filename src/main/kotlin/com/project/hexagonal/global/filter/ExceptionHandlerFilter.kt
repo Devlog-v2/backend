@@ -6,13 +6,11 @@ import com.project.hexagonal.global.exception.error.ErrorCode
 import com.project.hexagonal.global.exception.response.ErrorResponse
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.JwtException
-import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-@Component
 class ExceptionHandlerFilter: OncePerRequestFilter() {
 
     override fun doFilterInternal(
@@ -27,6 +25,7 @@ class ExceptionHandlerFilter: OncePerRequestFilter() {
                 is ExpiredJwtException -> exceptionToReseponse(ErrorCode.EXPIRED_ACCESS_TOKEN, response)
                 is JwtException -> exceptionToReseponse(ErrorCode.INVALID_TOKEN, response)
                 is HexagonalException -> exceptionToReseponse(exception.errorCode, response)
+                is Exception -> exceptionToReseponse(ErrorCode.INVERVAL_SERVER_ERROR, response)
             }
         }
     }
