@@ -33,7 +33,7 @@ class AccountAuthWebAdapter(
         signInUseCase.execute(request)
             .let { ResponseEntity.ok(it) }
 
-    @PatchMapping
+    @PatchMapping("/reissue")
     fun reissueToken(@RequestHeader refreshToken: String): ResponseEntity<SignInResponse> =
         reissueTokenUseCase.execute(refreshToken)
             .let { ResponseEntity.ok(it) }
