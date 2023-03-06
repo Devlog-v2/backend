@@ -4,7 +4,7 @@ import com.project.hexagonal.domain.account.Account
 
 interface QueryAccountPort {
 
-    fun existsAccountByEmail(email: String)
-    fun findAccountByEmail(email: String): Account
+    fun existsAccountByEmail(email: String): Boolean
+    fun findAccountByEmail(email: String): Account?
 
 }
