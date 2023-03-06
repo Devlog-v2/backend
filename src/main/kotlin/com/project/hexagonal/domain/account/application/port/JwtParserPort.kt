@@ -6,9 +6,8 @@ import javax.servlet.http.HttpServletRequest
 interface JwtParserPort {
 
     fun parseAccessToken(request: HttpServletRequest): String?
+    fun parseRefershToken(refreshToken: String): String?
     fun authentication(accessToken: String): Authentication
-
-    fun parseRefershToken(refreshToken: String): String
     fun isRefreshTokenExpired(refreshToken: String): Boolean
 
 }
