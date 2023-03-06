@@ -6,9 +6,9 @@ import com.project.hexagonal.domain.account.application.port.GenetateJwtPort
 import com.project.hexagonal.domain.account.application.port.PasswordEncodePort
 import com.project.hexagonal.domain.account.application.port.QueryAccountPort
 import com.project.hexagonal.domain.account.exception.PasswordNotCorrectException
-import com.project.hexagonal.global.annotation.UseCase
+import com.project.hexagonal.global.annotation.ReadOnlyUseCase
 
-@UseCase
+@ReadOnlyUseCase
 class SignInUseCase(
     private val accountPort: QueryAccountPort,
     private val genetateJwtPort: GenetateJwtPort,
