@@ -16,6 +16,9 @@ enum class ErrorCode(
     EXPIRED_RERESH_TOKEN("만료된 refreshToken 입니다.", 403),
     EXPIRED_ACCESS_TOKEN("만료된 accessToken 입니다.", 403),
 
+    // POST
+    POST_NOT_FOUND("게시글을 찾을 수 없습니다.", 404),
+
     // SERVER
     INVERVAL_SERVER_ERROR("서버 오류 입니다.", 500),
 
