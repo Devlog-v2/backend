@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional
 import java.security.Key
 import java.time.LocalDateTime
 import java.util.Date
+import java.util.UUID
 
 @Component
 class GenetateJwtAdapter(
@@ -20,27 +21,27 @@ class GenetateJwtAdapter(
 ): GenetateJwtPort {
 
     @Transactional(rollbackFor = [Exception::class])
-    override fun generate(email: String): SignInResponse {
-        val accessToken = genrateAccessToken(email, jwtProperties.accessSecret)
-        val refreshToken = genrateRefreshToken(email, jwtProperties.refreshSecret)
+    override fun generate(accountIdx: UUID): SignInResponse {
+        val accessToken = genrateAccessToken(accountIdx, jwtProperties.accessSecret)
+        val refreshToken = genrateRefreshToken(accountIdx, jwtProperties.refreshSecret)
         val accessTokenExpiredAt = getAccessTokenExpiredAt()
-        refreshTokenRepository.save(RefreshTokenEntity(refreshToken, email, jwtProperties.refreshExp))
+        refreshTokenRepository.save(RefreshTokenEntity(refreshToken, accountIdx, jwtProperties.refreshExp))
         return SignInResponse(accessToken, refreshToken, accessTokenExpiredAt)
     }
 
-    private fun genrateAccessToken(sub: String, secret: Key): String =
+    private fun genrateAccessToken(accountIdx: UUID, secret: Key): String =
         Jwts.builder()
             .signWith(secret, SignatureAlgorithm.HS256)
-            .setSubject(sub)
+            .setSubject(accountIdx.toString())
             .claim("type", JwtProperties.accessType)
             .setIssuedAt(Date())
             .setExpiration(Date(System.currentTimeMillis() + jwtProperties.accessExp * 1000))
             .compact()
 
-    private fun genrateRefreshToken(sub: String, secret: Key): String =
+    private fun genrateRefreshToken(accountIdx: UUID, secret: Key): String =
         Jwts.builder()
             .signWith(secret, SignatureAlgorithm.HS256)
-            .setSubject(sub)
+            .setSubject(accountIdx.toString())
             .claim("type", JwtProperties.refreshType)
             .setIssuedAt(Date())
             .setExpiration(Date(System.currentTimeMillis() + jwtProperties.refreshExp * 1000))
