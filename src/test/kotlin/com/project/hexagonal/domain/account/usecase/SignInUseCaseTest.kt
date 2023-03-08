@@ -16,6 +16,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import java.time.LocalDateTime
+import java.util.UUID
 
 class SignInUseCaseTest: BehaviorSpec({
     val accountPort = mockk<AccountPort>()
@@ -23,13 +24,14 @@ class SignInUseCaseTest: BehaviorSpec({
     val passwordEncodePort = mockk<PasswordEncodePort>()
     val signInUseCase = SignInUseCase(accountPort, generateJwtPort, passwordEncodePort)
 
+    val idx = UUID.randomUUID()
     val email = "test@test.com"
     val password = "test password"
     val name = "test name"
 
     Given("SignInRequest가 주어졌을때") {
         val request = SignInRequest(email, password)
-        val account = Account(email, password, name)
+        val account = Account(idx, email, password, name)
         val signInResponse = SignInResponse(
             accessToken = "sdfsfs",
             refreshToken = "safsdf",
@@ -37,14 +39,14 @@ class SignInUseCaseTest: BehaviorSpec({
         )
 
         When("로그인 요청을 하면") {
-            every { accountPort.findAccountByEmail(request.email) } returns account
-            every { passwordEncodePort.match(password, account.encodedPassword) } returns true
-            every { generateJwtPort.generate(request.email) } returns signInResponse
+            every { accountPort.queryAccountByEmail(request.email) } returns account
+            every { passwordEncodePort.isPasswordMatch(password, account.encodedPassword) } returns true
+            every { generateJwtPort.generate(account.idx) } returns signInResponse
 
             val result = signInUseCase.execute(request)
 
             Then("토큰이 발급이 되어야 한다.") {
-                verify(exactly = 1) { generateJwtPort.generate(request.email) }
+                verify(exactly = 1) { generateJwtPort.generate(account.idx) }
             }
 
             Then("결과값이 signInResponse와 같아야 한다.") {
@@ -53,7 +55,7 @@ class SignInUseCaseTest: BehaviorSpec({
         }
 
         When("비밀번호가 틀리게 요청을 했을때") {
-            every { passwordEncodePort.match(password, account.encodedPassword) } returns false
+            every { passwordEncodePort.isPasswordMatch(password, account.encodedPassword) } returns false
 
             Then("PasswordNotCorrectException이 터져야 한다.") {
                 shouldThrow<PasswordNotCorrectException> {
@@ -63,7 +65,7 @@ class SignInUseCaseTest: BehaviorSpec({
         }
 
         When("이메일이 존재하지 않을때") {
-            every { accountPort.findAccountByEmail(request.email) } returns null
+            every { accountPort.queryAccountByEmail(request.email) } returns null
 
             Then("AccountNotFoundException이 터져야 한다.") {
                 shouldThrow<AccountNotFoundException> {

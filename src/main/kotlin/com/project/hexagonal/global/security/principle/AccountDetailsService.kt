@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.lang.RuntimeException
+import java.util.UUID
 
 @Service
 @Transactional(readOnly = true, rollbackFor = [Exception::class])
@@ -14,6 +15,6 @@ class AccountDetailsService(
 ): UserDetailsService {
 
     override fun loadUserByUsername(username: String): UserDetails =
-        AccountDetails(accountRepository.findByEmail(username) ?: throw RuntimeException() )
+        AccountDetails(accountRepository.findByIdx(UUID.fromString(username)) ?: throw RuntimeException() )
 
 }

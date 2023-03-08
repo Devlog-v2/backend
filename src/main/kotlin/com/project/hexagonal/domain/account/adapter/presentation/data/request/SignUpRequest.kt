@@ -1,6 +1,7 @@
 package com.project.hexagonal.domain.account.adapter.presentation.data.request
 
 import com.project.hexagonal.domain.account.Account
+import java.util.UUID
 
 data class SignUpRequest(
     val email: String,
@@ -9,4 +10,4 @@ data class SignUpRequest(
 )
 
 fun SignUpRequest.toDomain(): Account =
-    Account(email = email, encodedPassword = password, name = name)
+    Account(idx = UUID.randomUUID(), email = email, encodedPassword = password, name = name)

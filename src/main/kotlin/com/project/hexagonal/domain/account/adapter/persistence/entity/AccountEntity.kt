@@ -1,21 +1,22 @@
 package com.project.hexagonal.domain.account.adapter.persistence.entity
 
-import com.project.hexagonal.domain.account.Account
 import com.project.hexagonal.domain.account.adapter.presentation.data.enumType.Autority
-import com.project.hexagonal.global.entity.BaseIdxEntity
+import org.hibernate.annotations.GenericGenerator
 import java.util.*
 import javax.persistence.*
 
 @Entity
 @Table(name = "account")
 class AccountEntity(
+    @Id
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name="uuid2", strategy = "uuid2")
+    @Column(columnDefinition = "BINARY(16)", nullable = false, name = "account_idx") // CHAR로 처리할 경우 32 바이트, BINARY로 처리할 경우 16 바이트
+    val idx: UUID,
     val email: String,
     val encodedPassword: String,
     val name: String,
-    @ElementCollection(fetch = FetchType.EAGER) // 즉시 로딩
-    @Enumerated(EnumType.STRING) @CollectionTable(name = "account_authority", joinColumns = [JoinColumn(name = "idx")])
+    @ElementCollection(fetch = FetchType.LAZY) // 즉시 로딩
+    @Enumerated(EnumType.STRING) @CollectionTable(name = "account_authority", joinColumns = [JoinColumn(name = "account_idx")])
     val authority: MutableList<Autority>
-): BaseIdxEntity()
-
-fun AccountEntity.toDomain(): Account =
-    Account(email = email, encodedPassword = encodedPassword, name = name)
+)

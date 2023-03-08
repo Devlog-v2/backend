@@ -14,6 +14,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import java.time.LocalDateTime
+import java.util.UUID
 
 class ReissueTokenUseCaseTest: BehaviorSpec({
     val genetateJwtPort = mockk<GenetateJwtPort>()
@@ -24,9 +25,9 @@ class ReissueTokenUseCaseTest: BehaviorSpec({
     Given("RefreshToken이 주어졌을때") {
         val refreshToken = "Bearer sdfsfsfsdf"
         val parsedRefreshToken = "sdfsfsfsdf"
-        val email = "test@test.com"
+        val accountIdx = UUID.randomUUID()
         val expiredAt = 1800
-        val refreshTokenDomain = RefreshToken(parsedRefreshToken, email, expiredAt)
+        val refreshTokenDomain = RefreshToken(parsedRefreshToken, accountIdx, expiredAt)
         val signInResponse = SignInResponse(
             accessToken = "sdfsfs",
             refreshToken = "safsdf",
@@ -34,15 +35,15 @@ class ReissueTokenUseCaseTest: BehaviorSpec({
         )
 
         every { jwtParserPort.parseRefershToken(refreshToken) } returns parsedRefreshToken
-        every { refreshTokenPort.findByRefreshToken(parsedRefreshToken) } returns refreshTokenDomain
+        every { refreshTokenPort.queryByRefreshToken(parsedRefreshToken) } returns refreshTokenDomain
         every { jwtParserPort.isRefreshTokenExpired(parsedRefreshToken) } returns false
-        every { genetateJwtPort.generate(refreshTokenDomain.accountEmail) } returns signInResponse
+        every { genetateJwtPort.generate(refreshTokenDomain.accountIdx) } returns signInResponse
 
         When("토큰 재발급 요청을 하면") {
             val result = reissueTokenUseCase.execute(refreshToken)
 
             Then("토큰이 발급이 되어야 한다.") {
-                verify(exactly = 1) { genetateJwtPort.generate(refreshTokenDomain.accountEmail) }
+                verify(exactly = 1) { genetateJwtPort.generate(refreshTokenDomain.accountIdx) }
             }
 
             Then("결과값이 signInResponse와 같아야 한다.") {

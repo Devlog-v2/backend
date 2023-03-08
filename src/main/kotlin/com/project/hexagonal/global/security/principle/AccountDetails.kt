@@ -12,7 +12,7 @@ class AccountDetails(
 
     override fun getPassword(): String? = null
 
-    override fun getUsername(): String = account.email
+    override fun getUsername(): String = account.idx.toString()
 
     override fun isAccountNonExpired(): Boolean = false
 
