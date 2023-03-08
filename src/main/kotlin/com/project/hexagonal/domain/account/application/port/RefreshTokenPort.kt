@@ -4,6 +4,6 @@ import com.project.hexagonal.domain.account.RefreshToken
 
 interface RefreshTokenPort {
 
-    fun findByRefreshToken(refreshToken: String): RefreshToken
+    fun queryByRefreshToken(refreshToken: String): RefreshToken
 
 }

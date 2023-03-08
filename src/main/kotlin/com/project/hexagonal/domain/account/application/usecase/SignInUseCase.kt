@@ -11,17 +11,17 @@ import com.project.hexagonal.global.annotation.ReadOnlyUseCase
 
 @ReadOnlyUseCase
 class SignInUseCase(
-    private val accountPort: QueryAccountPort,
+    private val queryAccountPort: QueryAccountPort,
     private val genetateJwtPort: GenetateJwtPort,
     private val passwordEncodePort: PasswordEncodePort
 ) {
 
     fun execute(request: SignInRequest): SignInResponse {
-        val account = accountPort.findAccountByEmail(request.email) ?: throw AccountNotFoundException()
-        if (!passwordEncodePort.match(request.password, account.encodedPassword)) {
+        val account = queryAccountPort.queryAccountByEmail(request.email) ?: throw AccountNotFoundException()
+        if (!passwordEncodePort.isPasswordMatch(request.password, account.encodedPassword)) {
             throw PasswordNotCorrectException()
         }
-        return genetateJwtPort.generate(account.email)
+        return genetateJwtPort.generate(account.idx)
     }
 
 }

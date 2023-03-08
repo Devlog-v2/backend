@@ -17,11 +17,11 @@ class ReissueTokenUseCase(
 
     fun execute(request: String): SignInResponse {
         val refreshToken = jwtParserPort.parseRefershToken(request) ?: throw InvalidTokenTypeException()
-        val refreshTokenDomain = refreshTokenPort.findByRefreshToken(refreshToken)
+        val refreshTokenDomain = refreshTokenPort.queryByRefreshToken(refreshToken)
         if (jwtParserPort.isRefreshTokenExpired(refreshToken)) {
             throw ExpiredRefreshTokenExcpetion()
         }
-        return genetateJwtPort.generate(refreshTokenDomain.accountEmail)
+        return genetateJwtPort.generate(refreshTokenDomain.accountIdx)
     }
 
 }
