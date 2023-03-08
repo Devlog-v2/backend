@@ -1,28 +1,28 @@
 package com.project.hexagonal.domain.account.adapter.persistence
 
 import com.project.hexagonal.domain.account.Account
-import com.project.hexagonal.domain.account.adapter.persistence.entity.AccountEntity
-import com.project.hexagonal.domain.account.adapter.persistence.entity.toDomain
+import com.project.hexagonal.domain.account.adapter.persistence.converter.AccountConverter
 import com.project.hexagonal.domain.account.adapter.persistence.repository.AccountRepository
 import com.project.hexagonal.domain.account.application.port.AccountPort
-import com.project.hexagonal.domain.account.exception.AccountNotFoundException
-import com.project.hexagonal.domain.account.exception.DuplicateEmailException
-import com.project.hexagonal.domain.account.toEntity
-import com.project.hexagonal.global.annotation.Adapter
+import com.project.hexagonal.global.annotation.AdapterWithTransaction
+import java.util.*
 
-@Adapter
+@AdapterWithTransaction
 class AccountPersistenceAdapter(
     private val accountRepository: AccountRepository,
+    private val accountConverter: AccountConverter
 ): AccountPort {
 
-    override fun saveAccount(account: Account, encodedPassword: String): AccountEntity =
-        accountRepository.save(account.toEntity(encodedPassword))
+    override fun saveAccount(account: Account, encodedPassword: String): Account =
+        accountConverter.toDomain(accountRepository.save(accountConverter.toEntity(account, encodedPassword)))
 
     override fun existsAccountByEmail(email: String): Boolean =
         accountRepository.existsByEmail(email)
 
-    override fun findAccountByEmail(email: String): Account? =
-        accountRepository.findByEmail(email)
-            .let { it ?: return null }.toDomain()
+    override fun queryAccountByEmail(email: String): Account? =
+        accountRepository.findByEmail(email)?.let { accountConverter.toDomain(it) }
+
+    override fun queryAccountByIdx(idx: UUID): Account? =
+        accountRepository.findByIdx(idx)?.let { accountConverter.toDomain(it) }
 
 }
