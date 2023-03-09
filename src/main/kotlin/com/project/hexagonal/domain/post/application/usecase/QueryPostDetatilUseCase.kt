@@ -24,13 +24,13 @@ class QueryPostDetatilUseCase(
         val account = queryAccountPort.queryAccountByIdx(accountSecurityPort.getCurrentAccountIdx())
             ?: throw AccountNotFoundException()
         val post = queryPostPort.queryPostById(postIdx) ?: throw PostNotFoundException()
-        val like = queryLikePort.queryLikeByAccountIdxAndPostIdx(account.idx, post.idx)
+        val isLike = queryLikePort.queryLikeByAccountIdxAndPostIdx(account.idx, post.idx)
         return PostDetailResponse(
             idx = post.idx,
             title = post.title,
             content = post.content,
             writer = WriterResponse(account.idx, account.name),
-            like = LikeResponse(like.isLiked, queryLikePort.queryLikeCountByPostIdx(post.idx)),
+            like = LikeResponse(isLike, queryLikePort.queryLikeCountByPostIdx(post.idx)),
             tag = post.tag
         )
     }
