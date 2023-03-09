@@ -4,7 +4,4 @@ import com.project.hexagonal.domain.post.adapter.persistence.entity.PostEntity
 import org.springframework.data.repository.CrudRepository
 import java.util.UUID
 
-interface PostRepository: CrudRepository<PostEntity, UUID> {
-    fun findByIdx(idx: UUID): PostEntity?
-
-}
+interface PostRepository: CrudRepository<PostEntity, UUID>

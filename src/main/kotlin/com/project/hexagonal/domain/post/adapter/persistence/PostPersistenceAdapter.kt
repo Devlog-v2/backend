@@ -6,6 +6,7 @@ import com.project.hexagonal.domain.post.adapter.persistence.entity.toUpdate
 import com.project.hexagonal.domain.post.adapter.persistence.repository.PostRepository
 import com.project.hexagonal.domain.post.application.port.PostPort
 import com.project.hexagonal.global.annotation.AdapterWithTransaction
+import org.springframework.data.repository.findByIdOrNull
 import java.util.UUID
 
 @AdapterWithTransaction
@@ -25,7 +26,7 @@ class PostPersistenceAdapter(
         postRepository.delete(postconverter.toEntity(post))
 
     override fun queryPostById(postIdx: UUID): Post? =
-        postRepository.findByIdx(postIdx)?.let { postconverter.toDomain(it) }
+        postRepository.findByIdOrNull(postIdx)?.let { postconverter.toDomain(it) }
 
     override fun queryAllPost(): List<Post> =
         postRepository.findAll().map { postconverter.toDomain(it) }
