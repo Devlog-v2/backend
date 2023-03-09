@@ -1,6 +1,7 @@
-package com.project.hexagonal.global.security.principle
+package com.project.hexagonal.global.security.principal
 
 import com.project.hexagonal.domain.account.adapter.persistence.repository.AccountRepository
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
@@ -15,6 +16,6 @@ class AccountDetailsService(
 ): UserDetailsService {
 
     override fun loadUserByUsername(username: String): UserDetails =
-        AccountDetails(accountRepository.findByIdx(UUID.fromString(username)) ?: throw RuntimeException() )
+        AccountDetails(accountRepository.findByIdOrNull(UUID.fromString(username)) ?: throw RuntimeException() )
 
 }

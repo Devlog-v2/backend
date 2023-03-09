@@ -5,6 +5,7 @@ import com.project.hexagonal.domain.account.adapter.persistence.converter.Accoun
 import com.project.hexagonal.domain.account.adapter.persistence.repository.AccountRepository
 import com.project.hexagonal.domain.account.application.port.AccountPort
 import com.project.hexagonal.global.annotation.AdapterWithTransaction
+import org.springframework.data.repository.findByIdOrNull
 import java.util.*
 
 @AdapterWithTransaction
@@ -23,6 +24,6 @@ class AccountPersistenceAdapter(
         accountRepository.findByEmail(email)?.let { accountConverter.toDomain(it) }
 
     override fun queryAccountByIdx(idx: UUID): Account? =
-        accountRepository.findByIdx(idx)?.let { accountConverter.toDomain(it) }
+        accountRepository.findByIdOrNull(idx)?.let { accountConverter.toDomain(it) }
 
 }

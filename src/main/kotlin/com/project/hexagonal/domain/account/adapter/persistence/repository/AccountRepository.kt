@@ -9,7 +9,6 @@ interface AccountRepository: JpaRepository<AccountEntity, UUID>  {
 
     fun existsByEmail(email: String): Boolean
     fun findByEmail(email: String): AccountEntity?
-    fun findByIdx(idx: UUID): AccountEntity?
 
 }
 

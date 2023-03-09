@@ -1,4 +1,4 @@
-package com.project.hexagonal.global.security.principle
+package com.project.hexagonal.global.security.principal
 
 import com.project.hexagonal.domain.account.adapter.persistence.entity.AccountEntity
 import org.springframework.security.core.GrantedAuthority
