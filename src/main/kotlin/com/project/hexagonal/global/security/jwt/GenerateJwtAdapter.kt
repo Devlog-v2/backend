@@ -2,7 +2,7 @@ package com.project.hexagonal.global.security.jwt
 
 import com.project.hexagonal.domain.account.adapter.persistence.entity.RefreshTokenEntity
 import com.project.hexagonal.domain.account.adapter.persistence.repository.RefreshTokenRepository
-import com.project.hexagonal.domain.account.application.port.GenetateJwtPort
+import com.project.hexagonal.domain.account.application.port.GenerateJwtPort
 import com.project.hexagonal.domain.account.adapter.presentation.data.response.SignInResponse
 import com.project.hexagonal.global.security.jwt.property.JwtProperties
 import io.jsonwebtoken.Jwts
@@ -15,10 +15,10 @@ import java.util.Date
 import java.util.UUID
 
 @Component
-class GenetateJwtAdapter(
+class GenerateJwtAdapter(
     private val jwtProperties: JwtProperties,
     private val refreshTokenRepository: RefreshTokenRepository
-): GenetateJwtPort {
+): GenerateJwtPort {
 
     @Transactional(rollbackFor = [Exception::class])
     override fun generate(accountIdx: UUID): SignInResponse {

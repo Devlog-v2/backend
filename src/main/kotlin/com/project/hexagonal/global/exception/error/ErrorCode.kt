@@ -20,6 +20,6 @@ enum class ErrorCode(
     POST_NOT_FOUND("게시글을 찾을 수 없습니다.", 404),
 
     // SERVER
-    INVERVAL_SERVER_ERROR("서버 오류 입니다.", 500),
+    INTERVAL_SERVER_ERROR("서버 오류 입니다.", 500),
 
 }

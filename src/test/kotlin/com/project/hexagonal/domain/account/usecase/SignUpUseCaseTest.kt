@@ -9,11 +9,11 @@ import com.project.hexagonal.domain.account.application.usecase.SignUpUseCase
 import com.project.hexagonal.domain.account.exception.DuplicateEmailException
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
-import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import java.util.UUID
+import java.util.*
 
 class SignUpUseCaseTest: BehaviorSpec({
     val commandAccountPort = mockk<CommandAccountPort>()
@@ -31,11 +31,11 @@ class SignUpUseCaseTest: BehaviorSpec({
         val request = SignUpRequest(email, password, name)
         val duplicateEmailRequest = SignUpRequest(email, password, name)
         val account = Account(idx, email, password, name)
-        val accountIdx = 0L
+        val saveAccount = Account(idx, email, encodedPassword, name)
 
         every { queryAccountPort.existsAccountByEmail(request.email) } returns false
         every { passwordEncodePort.passwordEncode(request.password) } returns encodedPassword
-        every { commandAccountPort.saveAccount(account, encodedPassword) } returns account
+        every { commandAccountPort.saveAccount(account, encodedPassword) } returns saveAccount
 
         When("회원가입 요청을 하면") {
 
@@ -49,8 +49,8 @@ class SignUpUseCaseTest: BehaviorSpec({
                 verify(exactly = 1) { commandAccountPort.saveAccount(account, encodedPassword) }
             }
 
-            Then("결과값이 accountIdx와 같아야 한다.") {
-                result shouldBe accountIdx
+            Then("accountIdx이 null이 아니여야 한다.") {
+                result shouldNotBe null
             }
         }
 

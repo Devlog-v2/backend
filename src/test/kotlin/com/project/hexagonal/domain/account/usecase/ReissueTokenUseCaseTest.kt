@@ -2,7 +2,7 @@ package com.project.hexagonal.domain.account.usecase
 
 import com.project.hexagonal.domain.account.RefreshToken
 import com.project.hexagonal.domain.account.adapter.presentation.data.response.SignInResponse
-import com.project.hexagonal.domain.account.application.port.GenetateJwtPort
+import com.project.hexagonal.domain.account.application.port.GenerateJwtPort
 import com.project.hexagonal.domain.account.application.port.JwtParserPort
 import com.project.hexagonal.domain.account.application.port.RefreshTokenPort
 import com.project.hexagonal.domain.account.application.usecase.ReissueTokenUseCase
@@ -17,10 +17,10 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 class ReissueTokenUseCaseTest: BehaviorSpec({
-    val genetateJwtPort = mockk<GenetateJwtPort>()
+    val generateJwtPort = mockk<GenerateJwtPort>()
     val refreshTokenPort = mockk<RefreshTokenPort>()
     val jwtParserPort = mockk<JwtParserPort>()
-    val reissueTokenUseCase = ReissueTokenUseCase(genetateJwtPort, refreshTokenPort, jwtParserPort)
+    val reissueTokenUseCase = ReissueTokenUseCase(generateJwtPort, refreshTokenPort, jwtParserPort)
 
     Given("RefreshToken이 주어졌을때") {
         val refreshToken = "Bearer sdfsfsfsdf"
@@ -37,13 +37,13 @@ class ReissueTokenUseCaseTest: BehaviorSpec({
         every { jwtParserPort.parseRefershToken(refreshToken) } returns parsedRefreshToken
         every { refreshTokenPort.queryByRefreshToken(parsedRefreshToken) } returns refreshTokenDomain
         every { jwtParserPort.isRefreshTokenExpired(parsedRefreshToken) } returns false
-        every { genetateJwtPort.generate(refreshTokenDomain.accountIdx) } returns signInResponse
+        every { generateJwtPort.generate(refreshTokenDomain.accountIdx) } returns signInResponse
 
         When("토큰 재발급 요청을 하면") {
             val result = reissueTokenUseCase.execute(refreshToken)
 
             Then("토큰이 발급이 되어야 한다.") {
-                verify(exactly = 1) { genetateJwtPort.generate(refreshTokenDomain.accountIdx) }
+                verify(exactly = 1) { generateJwtPort.generate(refreshTokenDomain.accountIdx) }
             }
 
             Then("결과값이 signInResponse와 같아야 한다.") {

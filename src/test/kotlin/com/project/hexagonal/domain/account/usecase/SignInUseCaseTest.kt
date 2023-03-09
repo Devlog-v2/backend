@@ -4,7 +4,7 @@ import com.project.hexagonal.domain.account.Account
 import com.project.hexagonal.domain.account.adapter.presentation.data.request.SignInRequest
 import com.project.hexagonal.domain.account.adapter.presentation.data.response.SignInResponse
 import com.project.hexagonal.domain.account.application.port.AccountPort
-import com.project.hexagonal.domain.account.application.port.GenetateJwtPort
+import com.project.hexagonal.domain.account.application.port.GenerateJwtPort
 import com.project.hexagonal.domain.account.application.port.PasswordEncodePort
 import com.project.hexagonal.domain.account.application.usecase.SignInUseCase
 import com.project.hexagonal.domain.account.exception.AccountNotFoundException
@@ -20,7 +20,7 @@ import java.util.UUID
 
 class SignInUseCaseTest: BehaviorSpec({
     val accountPort = mockk<AccountPort>()
-    val generateJwtPort = mockk<GenetateJwtPort>()
+    val generateJwtPort = mockk<GenerateJwtPort>()
     val passwordEncodePort = mockk<PasswordEncodePort>()
     val signInUseCase = SignInUseCase(accountPort, generateJwtPort, passwordEncodePort)
 

@@ -2,7 +2,7 @@ package com.project.hexagonal.global.security.jwt
 
 import com.project.hexagonal.domain.account.application.port.JwtParserPort
 import com.project.hexagonal.global.security.jwt.property.JwtProperties
-import com.project.hexagonal.global.security.principle.AccountDetailsService
+import com.project.hexagonal.global.security.principal.AccountDetailsService
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken

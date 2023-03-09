@@ -1,7 +1,7 @@
 package com.project.hexagonal.domain.account.application.usecase
 
 import com.project.hexagonal.domain.account.adapter.presentation.data.response.SignInResponse
-import com.project.hexagonal.domain.account.application.port.GenetateJwtPort
+import com.project.hexagonal.domain.account.application.port.GenerateJwtPort
 import com.project.hexagonal.domain.account.application.port.JwtParserPort
 import com.project.hexagonal.domain.account.application.port.RefreshTokenPort
 import com.project.hexagonal.global.annotation.ReadOnlyUseCase
@@ -10,7 +10,7 @@ import com.project.hexagonal.global.security.jwt.exception.InvalidTokenTypeExcep
 
 @ReadOnlyUseCase
 class ReissueTokenUseCase(
-    private val genetateJwtPort: GenetateJwtPort,
+    private val generateJwtPort: GenerateJwtPort,
     private val refreshTokenPort: RefreshTokenPort,
     private val jwtParserPort: JwtParserPort
 ) {
@@ -21,7 +21,7 @@ class ReissueTokenUseCase(
         if (jwtParserPort.isRefreshTokenExpired(refreshToken)) {
             throw ExpiredRefreshTokenExcpetion()
         }
-        return genetateJwtPort.generate(refreshTokenDomain.accountIdx)
+        return generateJwtPort.generate(refreshTokenDomain.accountIdx)
     }
 
 }
