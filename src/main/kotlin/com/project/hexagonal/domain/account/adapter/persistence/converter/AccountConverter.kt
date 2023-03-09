@@ -26,7 +26,7 @@ class AccountConverter {
                 idx = it.idx,
                 email = it.email,
                 encodedPassword = it.encodedPassword,
-                name = it.encodedPassword
+                name = it.name
             )
         }
 
