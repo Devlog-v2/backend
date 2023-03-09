@@ -6,6 +6,7 @@ import com.project.hexagonal.domain.like.Like
 import com.project.hexagonal.domain.like.adapter.persistence.entity.LikeEntity
 import com.project.hexagonal.domain.post.adapter.persistence.repository.PostRepository
 import com.project.hexagonal.domain.post.exception.PostNotFoundException
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 
 @Component
@@ -15,8 +16,8 @@ class LikeConverter(
 ) {
 
     fun toEntity(domain: Like): LikeEntity {
-        val account = accountRepository.findByIdx(domain.accountIdx) ?: throw AccountNotFoundException()
-        val post = postRepository.findByIdx(domain.postIdx) ?: throw PostNotFoundException()
+        val account = accountRepository.findByIdOrNull(domain.accountIdx) ?: throw AccountNotFoundException()
+        val post = postRepository.findByIdOrNull(domain.postIdx) ?: throw PostNotFoundException()
         return LikeEntity(
             idx = domain.idx,
             isLiked = domain.isLiked,

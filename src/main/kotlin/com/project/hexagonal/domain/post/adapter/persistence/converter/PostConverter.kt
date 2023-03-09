@@ -4,6 +4,7 @@ import com.project.hexagonal.domain.account.adapter.persistence.repository.Accou
 import com.project.hexagonal.domain.account.exception.AccountNotFoundException
 import com.project.hexagonal.domain.post.Post
 import com.project.hexagonal.domain.post.adapter.persistence.entity.PostEntity
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 
 @Component
@@ -12,7 +13,7 @@ class PostConverter(
 ) {
 
     fun toEntity(domain: Post): PostEntity {
-        val account = accountRepository.findByIdx(domain.accountIdx) ?: throw AccountNotFoundException()
+        val account = accountRepository.findByIdOrNull(domain.accountIdx) ?: throw AccountNotFoundException()
         return domain.let {
             PostEntity(
                 idx = it.idx,
