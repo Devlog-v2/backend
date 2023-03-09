@@ -11,7 +11,7 @@ class AccountEntity(
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name="uuid2", strategy = "uuid2")
-    @Column(columnDefinition = "BINARY(16)", nullable = false, name = "account_idx") // CHAR로 처리할 경우 32 바이트, BINARY로 처리할 경우 16 바이트
+    @Column(name = "account_idx", columnDefinition = "BINARY(16)", nullable = false) // CHAR로 처리할 경우 32 바이트, BINARY로 처리할 경우 16 바이트
     val idx: UUID,
     val email: String,
     val encodedPassword: String,
