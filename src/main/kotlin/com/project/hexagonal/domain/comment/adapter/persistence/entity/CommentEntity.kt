@@ -8,6 +8,7 @@ import org.hibernate.annotations.OnDeleteAction
 import javax.persistence.*
 
 @Entity
+@Table(name = "comment")
 class CommentEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

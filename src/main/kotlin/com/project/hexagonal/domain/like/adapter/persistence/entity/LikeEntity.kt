@@ -8,6 +8,7 @@ import org.hibernate.annotations.OnDeleteAction
 import javax.persistence.*
 
 @Entity
+@Table(name = "like")
 class LikeEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
