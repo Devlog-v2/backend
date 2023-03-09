@@ -22,14 +22,14 @@ class ExceptionHandlerFilter: OncePerRequestFilter() {
             filterChain.doFilter(request, response)
         }.onFailure { exception ->
             when (exception) {
-                is ExpiredJwtException -> exceptionToReseponse(ErrorCode.EXPIRED_ACCESS_TOKEN, response)
-                is JwtException -> exceptionToReseponse(ErrorCode.INVALID_TOKEN, response)
-                is HexagonalException -> exceptionToReseponse(exception.errorCode, response)
+                is ExpiredJwtException -> exceptionToResponse(ErrorCode.EXPIRED_ACCESS_TOKEN, response)
+                is JwtException -> exceptionToResponse(ErrorCode.INVALID_TOKEN, response)
+                is HexagonalException -> exceptionToResponse(exception.errorCode, response)
             }
         }
     }
 
-    private fun exceptionToReseponse(errorCode: ErrorCode, response: HttpServletResponse) {
+    private fun exceptionToResponse(errorCode: ErrorCode, response: HttpServletResponse) {
         response.status = errorCode.status
         response.contentType = "application/json"
         response.characterEncoding = "utf-8"
