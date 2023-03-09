@@ -36,3 +36,12 @@ jobs: # workflow는 여러개의 job으로 구성 된다.
       with:
         username: ${{secrets.DOCKERHUB_USERNAME}}
         password: ${{secrets.DOCKERHUB_TOKEN}}
+    
+    - name: build and release to DockerHub # docker 이미지를 빌드 하고 docker hub에 올리는 job
+      env:
+        NAME: sunggil # 계정 명
+        REPO: hexagonal # 레포 이름
+      run: |
+        docker build -t $REPO .
+        docker tag $REPO:latest $NAME/$REPO:latest
+        docker push $NAME/$REPO:latest
