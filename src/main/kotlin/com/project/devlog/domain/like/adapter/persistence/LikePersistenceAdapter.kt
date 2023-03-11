@@ -19,7 +19,7 @@ class LikePersistenceAdapter(
     override fun deleteLike(domain: Like) =
         likeRepository.delete(likeConverter.toEntity(domain))
 
-    override fun queryExstistLikeByAccountIdxAndPostIdx(accountIdx: UUID, postIdx: UUID): Boolean =
+    override fun queryExistsLikeByAccountIdxAndPostIdx(accountIdx: UUID, postIdx: UUID): Boolean =
         likeRepository.existsByAccountIdxAndPostIdx(accountIdx, postIdx)
 
     override fun queryLikeByAccountIdxAndPostIdx(accountIdx: UUID, postIdx: UUID): Like? =
