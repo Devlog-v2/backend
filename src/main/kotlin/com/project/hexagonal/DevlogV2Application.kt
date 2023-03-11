@@ -6,8 +6,8 @@ import org.springframework.boot.runApplication
 
 @ConfigurationPropertiesScan
 @SpringBootApplication
-class HexagonalApplication
+class DevlogV2Application
 
 fun main(args: Array<String>) {
-	runApplication<HexagonalApplication>(*args)
+	runApplication<DevlogV2Application>(*args)
 }
