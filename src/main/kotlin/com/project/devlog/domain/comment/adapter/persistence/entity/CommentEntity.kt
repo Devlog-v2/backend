@@ -15,7 +15,7 @@ class CommentEntity(
     @Column(name = "comment_idx", nullable = false)
     val idx: Long,
     var comment: String,
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     val account: AccountEntity,
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)

@@ -15,7 +15,7 @@ class LikeEntity(
     @Column(name = "like_idx", nullable = false)
     val idx: Long,
     val isLiked: Boolean,
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     val account: AccountEntity,
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)

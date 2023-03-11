@@ -16,10 +16,10 @@ class PostEntity(
     val idx: UUID,
     var title: String,
     var content: String,
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idx")
     val account: AccountEntity,
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "post_tag", joinColumns = [JoinColumn(name = "post_idx")])
     var tag: MutableList<String>
 ): BaseTimeEntity()
