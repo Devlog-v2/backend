@@ -40,7 +40,7 @@ class PostWebAdapter(
         queryPostDetatilUseCase.execute(postIdx)
             .let { ResponseEntity.ok(it) }
 
-    @PostMapping
+    @GetMapping
     fun findAllPost(@RequestParam page: Int, size: Int): ResponseEntity<List<PostListResponse>> =
         queryPostAllPostUseCase.execute(page, size)
             .let { ResponseEntity.ok(it) }
