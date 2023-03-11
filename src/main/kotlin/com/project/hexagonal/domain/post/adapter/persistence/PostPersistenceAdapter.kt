@@ -6,8 +6,9 @@ import com.project.hexagonal.domain.post.adapter.persistence.entity.toUpdate
 import com.project.hexagonal.domain.post.adapter.persistence.repository.PostRepository
 import com.project.hexagonal.domain.post.application.port.PostPort
 import com.project.hexagonal.global.annotation.AdapterWithTransaction
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
-import java.util.UUID
+import java.util.*
 
 @AdapterWithTransaction
 class PostPersistenceAdapter(
@@ -28,7 +29,7 @@ class PostPersistenceAdapter(
     override fun queryPostById(postIdx: UUID): Post? =
         postRepository.findByIdOrNull(postIdx)?.let { postconverter.toDomain(it) }
 
-    override fun queryAllPost(): List<Post> =
+    override fun queryAllPost(pageRequest: PageRequest): List<Post> =
         postRepository.findAll().map { postconverter.toDomain(it) }
 
 }
