@@ -17,6 +17,12 @@ jobs: # workflow는 여러개의 job으로 구성 된다.
   build:
     runs-on: ubuntu-latest # 어떤 os에서 실행할지 결정한다.
 
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+
     steps:
     - uses: actions/checkout@v3 # 어떤 action을 사용할지 결정한다.
     - name: Set up JDK 11 
