@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RestController
-@RequestMapping("/like")
+@RequestMapping("api/v2/like")
 class LikeWebAdapter(
     private val saveLikeUseCase: SaveLikeUseCase,
     private val deleteLikeUseCase: DeleteLikeUseCase
