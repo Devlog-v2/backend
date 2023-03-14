@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
 import java.security.Key
+import java.util.*
 import javax.servlet.http.HttpServletRequest
 
 @Component
@@ -27,7 +28,7 @@ class JwtParserAdapter(
 
     override fun authentication(accessToken: String): Authentication =
         accountDetailsService.loadUserByUsername(getTokenBody(accessToken, jwtProperties.accessSecret).subject)
-            .let { UsernamePasswordAuthenticationToken(it, "", it.authorities) }
+            .let { UsernamePasswordAuthenticationToken(it, "", Collections.emptyList()) }
 
     override fun isRefreshTokenExpired(refreshToken: String): Boolean {
         runCatching {
