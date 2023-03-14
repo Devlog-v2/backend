@@ -22,6 +22,9 @@ enum class ErrorCode(
     // LIKE
     LIKE_NOT_FOUND("좋아요를 누르지 않은 계정입니다.", 404),
 
+    // COMMENT
+    COMMENT_NOT_FOUND("댓글을 찾을 수 없습니다.", 404),
+
     // SERVER
     INTERVAL_SERVER_ERROR("서버 오류 입니다.", 500),
 
