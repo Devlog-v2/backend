@@ -17,17 +17,17 @@ class PostEntity(
     var title: String,
     var content: String,
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idx")
+    @JoinColumn(name = "account_idx")
     val account: AccountEntity,
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "post_tag", joinColumns = [JoinColumn(name = "post_idx")])
     var tag: List<String>,
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "post_image", joinColumns = [JoinColumn(name = "post_idx")])
-    var images: List<String>
+    var images: List<String>?
 ): BaseTimeEntity()
 
-fun PostEntity.toUpdate(title: String, content: String, tag: List<String>, images: List<String>) {
+fun PostEntity.toUpdate(title: String, content: String, tag: List<String>, images: List<String>?) {
     this.title = title
     this.content = content
     this.tag = tag
