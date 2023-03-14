@@ -1,4 +1,4 @@
-package com.project.devlog.domain.like.adapter.persistence.mapper
+package com.project.devlog.domain.like.adapter.persistence.converter
 
 import com.project.devlog.domain.account.adapter.persistence.repository.AccountRepository
 import com.project.devlog.domain.account.exception.AccountNotFoundException
