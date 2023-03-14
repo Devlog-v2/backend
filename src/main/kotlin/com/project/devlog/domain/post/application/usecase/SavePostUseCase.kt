@@ -16,8 +16,8 @@ class SavePostUseCase(
     private val s3UploadPort: S3UploadPort
 ) {
 
-    fun execute(fileList: MutableList<MultipartFile>, requst: WritePostRequest): UUID {
-        val uploadImages = s3UploadPort.uploadFile(fileList, "post/")
+    fun execute(fileList: MutableList<MultipartFile>?, requst: WritePostRequest): UUID {
+        val uploadImages = fileList?.let { s3UploadPort.uploadFile(it, "post/") }
         val post = requst.let {
             Post(
                 idx = UUID.randomUUID(),

@@ -19,10 +19,7 @@ class UpdateCommentUseCase(
             .let {
                 commandCommentPort.updateComment(
                     it.copy(
-                        idx = it.idx,
                         comment = request.comment,
-                        accountIdx = it.accountIdx,
-                        postIdx = it.postIdx
                     )
                 )
             }

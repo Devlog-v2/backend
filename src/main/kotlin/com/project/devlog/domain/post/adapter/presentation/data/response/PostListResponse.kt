@@ -7,5 +7,6 @@ data class PostListResponse(
     val title: String,
     val content: String,
     val writer: WriterResponse,
-    val likeCount: Int
+    val likeCount: Int,
+    val images: List<String>
 )

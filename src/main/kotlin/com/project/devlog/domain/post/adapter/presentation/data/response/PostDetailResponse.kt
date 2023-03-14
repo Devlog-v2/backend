@@ -10,4 +10,5 @@ data class PostDetailResponse(
     val writer: WriterResponse,
     val like: LikeResponse,
     val tag: List<String>,
+    val images: List<String>
 )

@@ -22,13 +22,20 @@ class PostWebAdapter(
 ) {
 
     @PostMapping
-    fun savePost(@RequestParam(value = "file") fileList: MutableList<MultipartFile>, @RequestBody request: WritePostRequest): ResponseEntity<Void> =
+    fun savePost(
+        @RequestPart(value = "file") fileList: MutableList<MultipartFile>?,
+        @RequestPart request: WritePostRequest
+    ): ResponseEntity<Void> =
         savePostUseCase.execute(fileList, request)
             .let { ResponseEntity.status(HttpStatus.CREATED).build() }
 
     @PatchMapping("{postIdx}")
-    fun updatePost(@PathVariable postIdx: UUID, @RequestBody request: UpdatePostRequest): ResponseEntity<Void> =
-        updatePostUseCase.execute(postIdx, request)
+    fun updatePost(
+        @PathVariable postIdx: UUID,
+        @RequestPart(value = "file") fileList: MutableList<MultipartFile>?,
+        @RequestPart request: UpdatePostRequest
+    ): ResponseEntity<Void> =
+        updatePostUseCase.execute(postIdx, fileList, request)
             .let { ResponseEntity.ok().build() }
 
     @DeleteMapping("{postIdx}")
