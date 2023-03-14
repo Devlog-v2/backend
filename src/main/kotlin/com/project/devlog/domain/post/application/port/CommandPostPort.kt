@@ -4,8 +4,8 @@ import com.project.devlog.domain.post.Post
 
 interface CommandPostPort {
 
-    fun savePost(post: Post): Post
-    fun updatePost(post: Post)
-    fun deletePost(post: Post)
+    fun savePost(domain: Post): Post
+    fun updatePost(domain: Post)
+    fun deletePost(domain: Post)
 
 }
