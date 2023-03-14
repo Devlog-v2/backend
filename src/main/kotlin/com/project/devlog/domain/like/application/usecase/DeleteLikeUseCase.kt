@@ -16,7 +16,7 @@ class DeleteLikeUseCase(
 
     fun execute(postIdx: UUID) {
         val accountIdx = accountSecurityPort.getCurrentAccountIdx()
-        val like = queryLikePort.queryLikeByAccountIdxAndPostIdx(accountIdx, postIdx) ?: throw LikeNotFoundException()
+        val like = queryLikePort.queryByAccountIdxAndPostIdx(accountIdx, postIdx) ?: throw LikeNotFoundException()
         commandLikePort.deleteLike(like)
     }
 

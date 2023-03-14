@@ -1,7 +1,7 @@
 package com.project.devlog.domain.like.adapter.persistence
 
 import com.project.devlog.domain.like.Like
-import com.project.devlog.domain.like.adapter.persistence.mapper.LikeConverter
+import com.project.devlog.domain.like.adapter.persistence.converter.LikeConverter
 import com.project.devlog.domain.like.adapter.persistence.repository.LikeRepository
 import com.project.devlog.domain.like.application.port.LikePort
 import com.project.devlog.global.annotation.AdapterWithTransaction
@@ -19,13 +19,13 @@ class LikePersistenceAdapter(
     override fun deleteLike(domain: Like) =
         likeRepository.delete(likeConverter.toEntity(domain))
 
-    override fun queryExistsLikeByAccountIdxAndPostIdx(accountIdx: UUID, postIdx: UUID): Boolean =
+    override fun queryExistsByAccountIdxAndPostIdx(accountIdx: UUID, postIdx: UUID): Boolean =
         likeRepository.existsByAccountIdxAndPostIdx(accountIdx, postIdx)
 
-    override fun queryLikeByAccountIdxAndPostIdx(accountIdx: UUID, postIdx: UUID): Like? =
+    override fun queryByAccountIdxAndPostIdx(accountIdx: UUID, postIdx: UUID): Like? =
         likeRepository.findByAccountIdxAndPostIdx(accountIdx, postIdx)?.let { likeConverter.toDomain(it) }
 
-    override fun queryLikeCountByPostIdx(postIdx: UUID): Int =
+    override fun queryCountByPostIdx(postIdx: UUID): Int =
         likeRepository.countByPostIdx(postIdx)
 
 }
