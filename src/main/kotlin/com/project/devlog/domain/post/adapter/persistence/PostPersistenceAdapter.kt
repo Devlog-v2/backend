@@ -14,7 +14,7 @@ import java.util.*
 class PostPersistenceAdapter(
     private val postRepository: PostRepository,
     private val postconverter: PostConverter
-) : PostPort {
+): PostPort {
 
     override fun savePost(domain: Post): Post =
         postconverter.toDomain(postRepository.save(postconverter.toEntity(domain)))

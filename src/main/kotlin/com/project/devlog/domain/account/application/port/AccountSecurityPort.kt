@@ -4,6 +4,6 @@ import java.util.UUID
 
 interface AccountSecurityPort {
 
-    fun getCurrentAccountIdx(): UUID
+    fun getCurrentAccountIdx(): UUID?
 
 }

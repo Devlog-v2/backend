@@ -14,7 +14,7 @@ class SaveLikeUseCase(
 
     fun execute(postIdx: UUID): Long {
         val accountIdx = accountSecurityPort.getCurrentAccountIdx()
-        val like = Like(idx = -1, isLiked = true, accountIdx = accountIdx, postIdx = postIdx)
+        val like = Like(idx = -1, isLiked = true, accountIdx = accountIdx!!, postIdx = postIdx)
         return commandLikePort.saveLike(like).idx
     }
 

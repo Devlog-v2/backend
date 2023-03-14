@@ -23,7 +23,7 @@ class SavePostUseCase(
                 idx = UUID.randomUUID(),
                 title = it.title,
                 content = it.content,
-                accountIdx = accountSecurityPort.getCurrentAccountIdx(),
+                accountIdx = accountSecurityPort.getCurrentAccountIdx()!!,
                 tag = it.tag,
                 images = uploadImages
             )

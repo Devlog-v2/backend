@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class HealthCheck {
+class HealthCheckController {
 
     @GetMapping("/")
     fun health(): ResponseEntity<String> =
-        ResponseEntity.ok("GOOD")
+        ResponseEntity.ok("ok 👍")
 
 }

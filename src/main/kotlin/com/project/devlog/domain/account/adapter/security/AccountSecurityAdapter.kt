@@ -8,7 +8,11 @@ import java.util.*
 @Adapter
 class AccountSecurityAdapter: AccountSecurityPort {
 
-    override fun getCurrentAccountIdx(): UUID =
-        UUID.fromString(SecurityContextHolder.getContext().authentication.name)
+    override fun getCurrentAccountIdx(): UUID? {
+        if (SecurityContextHolder.getContext().authentication.name == "anonymousUser") {
+            return null
+        }
+        return UUID.fromString(SecurityContextHolder.getContext().authentication.name)
+    }
 
 }

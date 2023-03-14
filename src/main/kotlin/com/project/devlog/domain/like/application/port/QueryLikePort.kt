@@ -5,7 +5,7 @@ import java.util.*
 
 interface QueryLikePort {
 
-    fun queryExistsByAccountIdxAndPostIdx(accountIdx: UUID, postIdx: UUID): Boolean
+    fun queryExistsByAccountIdxAndPostIdx(accountIdx: UUID?, postIdx: UUID): Boolean
     fun queryByAccountIdxAndPostIdx(accountIdx: UUID, postIdx: UUID): Like?
     fun queryCountByPostIdx(postIdx: UUID): Int
 

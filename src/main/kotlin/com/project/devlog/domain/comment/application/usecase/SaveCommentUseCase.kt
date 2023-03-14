@@ -18,7 +18,7 @@ class SaveCommentUseCase(
             idx = UUID.randomUUID(),
             comment = request.comment,
             postIdx = postIdx,
-            accountIdx = accountSecurityPort.getCurrentAccountIdx(),
+            accountIdx = accountSecurityPort.getCurrentAccountIdx()!!,
         )
         return commandCommentPort.saveComment(comment).idx
     }

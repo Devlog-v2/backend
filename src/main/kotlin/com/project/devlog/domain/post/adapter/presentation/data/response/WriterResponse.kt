@@ -5,4 +5,5 @@ import java.util.UUID
 data class WriterResponse(
     val accountIdx: UUID,
     val name: String,
+    val isMine: Boolean
 )
