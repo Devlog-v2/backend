@@ -35,6 +35,8 @@ class SecurityConfig(
             .antMatchers(HttpMethod.POST, "/api/v2/auth/signup").permitAll()
             .antMatchers(HttpMethod.POST, "/api/v2/auth/signin").permitAll()
             .antMatchers(HttpMethod.PATCH, "/api/v2/auth/reissue").permitAll()
+
+            .antMatchers(HttpMethod.GET, "").permitAll()
             .anyRequest().authenticated()
             .and()
 
