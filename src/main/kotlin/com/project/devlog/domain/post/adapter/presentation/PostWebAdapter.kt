@@ -8,6 +8,7 @@ import com.project.devlog.domain.post.application.usecase.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 import java.util.UUID
 
 @RestController
@@ -21,8 +22,8 @@ class PostWebAdapter(
 ) {
 
     @PostMapping
-    fun savePost(@RequestBody request: WritePostRequest): ResponseEntity<Void> =
-        savePostUseCase.execute(request)
+    fun savePost(@RequestParam(value = "file") fileList: MutableList<MultipartFile>, @RequestBody request: WritePostRequest): ResponseEntity<Void> =
+        savePostUseCase.execute(fileList, request)
             .let { ResponseEntity.status(HttpStatus.CREATED).build() }
 
     @PatchMapping("{postIdx}")

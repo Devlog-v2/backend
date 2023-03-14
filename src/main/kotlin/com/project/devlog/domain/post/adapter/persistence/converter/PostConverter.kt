@@ -20,7 +20,8 @@ class PostConverter(
                 title = it.title,
                 content = it.content,
                 account = account,
-                tag = it.tag
+                tag = it.tag,
+                images = it.images
             )
         }
     }
@@ -32,7 +33,8 @@ class PostConverter(
                 title = it.title,
                 content = it.content,
                 accountIdx = it.account.idx,
-                tag = it.tag
+                tag = it.tag,
+                images = it.images
             )
         }
 }

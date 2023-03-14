@@ -3,7 +3,7 @@ package com.project.devlog.domain.post.adapter.persistence.entity
 import com.project.devlog.domain.account.adapter.persistence.entity.AccountEntity
 import com.project.devlog.global.entity.BaseTimeEntity
 import org.hibernate.annotations.GenericGenerator
-import java.util.UUID
+import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -21,11 +21,15 @@ class PostEntity(
     val account: AccountEntity,
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "post_tag", joinColumns = [JoinColumn(name = "post_idx")])
-    var tag: MutableList<String>
+    var tag: List<String>,
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "post_image", joinColumns = [JoinColumn(name = "post_idx")])
+    var images: List<String>
 ): BaseTimeEntity()
 
-fun PostEntity.toUpdate(title: String, content: String, tag: MutableList<String>) {
+fun PostEntity.toUpdate(title: String, content: String, tag: List<String>, images: List<String>) {
     this.title = title
     this.content = content
     this.tag = tag
+    this.images = images
 }

@@ -16,15 +16,15 @@ class PostPersistenceAdapter(
     private val postconverter: PostConverter
 ) : PostPort {
 
-    override fun savePost(post: Post): Post =
-        postconverter.toDomain(postRepository.save(postconverter.toEntity(post)))
+    override fun savePost(domain: Post): Post =
+        postconverter.toDomain(postRepository.save(postconverter.toEntity(domain)))
 
-    override fun updatePost(post: Post) =
-        postconverter.toEntity(post)
-            .let { it.toUpdate(it.title, it.content, it.tag) }
+    override fun updatePost(domain: Post) =
+        postconverter.toEntity(domain)
+            .let { it.toUpdate(it.title, it.content, it.tag, it.images) }
 
-    override fun deletePost(post: Post) =
-        postRepository.delete(postconverter.toEntity(post))
+    override fun deletePost(domain: Post) =
+        postRepository.delete(postconverter.toEntity(domain))
 
     override fun queryPostById(postIdx: UUID): Post? =
         postRepository.findByIdOrNull(postIdx)?.let { postconverter.toDomain(it) }

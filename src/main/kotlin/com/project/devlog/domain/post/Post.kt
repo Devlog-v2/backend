@@ -7,5 +7,6 @@ data class Post(
     val title: String,
     val content: String,
     val accountIdx: UUID,
-    val tag: MutableList<String>,
+    val tag: List<String>,
+    val images: List<String>
 )

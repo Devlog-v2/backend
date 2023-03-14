@@ -26,7 +26,7 @@ class QueryAllPostUseCase(
                     title = it.title,
                     content = it.content,
                     writer = findAccountByIdx(it.accountIdx),
-                    likeCount = queryLikePort.queryLikeCountByPostIdx(it.idx)
+                    likeCount = queryLikePort.queryCountByPostIdx(it.idx)
                 )
             }
     }

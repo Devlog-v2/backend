@@ -9,5 +9,5 @@ data class PostDetailResponse(
     val content: String,
     val writer: WriterResponse,
     val like: LikeResponse,
-    val tag: MutableList<String>,
+    val tag: List<String>,
 )
