@@ -38,6 +38,7 @@ cloud:
       secretKey: ${AWS_SECRET}
     s3:
       bucket: ${AWS_BUCKET}
+      url: ${AWS_URL}
     region:
       static: ap-northeast-2
     stack:
