@@ -5,6 +5,7 @@ import org.springframework.boot.context.properties.ConstructorBinding
 
 @ConstructorBinding
 @ConfigurationProperties(prefix = "aws")
-class S3BocketProperties(
-    val bucket: String
+class S3Properties(
+    val bucket: String,
+    val url: String
 )

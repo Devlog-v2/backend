@@ -7,14 +7,14 @@ import com.amazonaws.services.s3.model.ObjectMetadata
 import com.amazonaws.services.s3.model.PutObjectRequest
 import com.project.devlog.global.annotation.Adapter
 import com.project.devlog.infrastructure.s3.application.port.S3Port
-import com.project.devlog.infrastructure.s3.application.property.S3BocketProperties
+import com.project.devlog.infrastructure.s3.application.property.S3Properties
 import org.springframework.web.multipart.MultipartFile
 import java.util.*
 
 @Adapter
 class S3Adpater(
     private val amazonS3: AmazonS3,
-    private val s3BocketProperties: S3BocketProperties
+    private val s3Properties: S3Properties
 ): S3Port {
 
     override fun uploadFile(fileList: List<MultipartFile>, dirName: String): List<String> {
@@ -29,7 +29,7 @@ class S3Adpater(
 
             runCatching {
                 amazonS3.putObject(
-                    PutObjectRequest(s3BocketProperties.bucket, dirName + fileName, file.inputStream, objectMetadata)
+                    PutObjectRequest(s3Properties.bucket, dirName + fileName, file.inputStream, objectMetadata)
                         .withCannedAcl(CannedAccessControlList.PublicRead)
                 )
             }.onSuccess {
@@ -39,12 +39,12 @@ class S3Adpater(
             }
         }
 
-        return fileNameList
+        return fileNameList.map { s3Properties.url + dirName + it }
 
     }
 
     override fun deleteFile(fileName: String) =
-        amazonS3.deleteObject(DeleteObjectRequest(s3BocketProperties.bucket, fileName))
+        amazonS3.deleteObject(DeleteObjectRequest(s3Properties.bucket, fileName))
 
     private fun fileNameToUUID(fileName: String): String =
         UUID.randomUUID().toString().plus(getFileExtension(fileName))
