@@ -20,7 +20,7 @@ class LikeWebAdapter(
             .let { ResponseEntity.status(HttpStatus.CREATED).build() }
 
     @DeleteMapping("{postIdx}")
-    fun updatePost(@PathVariable postIdx: UUID): ResponseEntity<Void> =
+    fun deleteLike(@PathVariable postIdx: UUID): ResponseEntity<Void> =
         deleteLikeUseCase.execute(postIdx)
             .let { ResponseEntity.ok().build() }
 
