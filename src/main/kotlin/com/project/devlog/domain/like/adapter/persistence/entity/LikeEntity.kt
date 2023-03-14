@@ -8,7 +8,7 @@ import org.hibernate.annotations.OnDeleteAction
 import javax.persistence.*
 
 @Entity
-@Table(name = "like")
+@Table(name = "post_like")
 class LikeEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,8 +16,10 @@ class LikeEntity(
     val idx: Long,
     val isLiked: Boolean,
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_idx")
     val account: AccountEntity,
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "post_idx")
     val post: PostEntity
 ): BaseTimeEntity()
