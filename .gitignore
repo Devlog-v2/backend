@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Test Resources ###
+/src/test/resources/image/test_image.jpg
+
