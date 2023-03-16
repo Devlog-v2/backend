@@ -1,6 +1,7 @@
 package com.project.devlog.domain.account.usecase
 
 import com.project.devlog.domain.account.Account
+import com.project.devlog.domain.account.adapter.presentation.data.enumType.Authority
 import com.project.devlog.domain.account.adapter.presentation.data.request.SignInRequest
 import com.project.devlog.domain.account.adapter.presentation.data.response.SignInResponse
 import com.project.devlog.domain.account.application.port.AccountPort
@@ -31,7 +32,7 @@ class SignInUseCaseTest: BehaviorSpec({
 
     Given("SignInRequest가 주어졌을때") {
         val request = SignInRequest(email, password)
-        val account = Account(idx, email, password, name)
+        val account = Account(idx, email, password, name, Authority.ROLE_ACCOUNT)
         val signInResponse = SignInResponse(
             accessToken = "sdfsfs",
             refreshToken = "safsdf",
@@ -41,12 +42,12 @@ class SignInUseCaseTest: BehaviorSpec({
         When("로그인 요청을 하면") {
             every { accountPort.queryAccountByEmail(request.email) } returns account
             every { passwordEncodePort.isPasswordMatch(password, account.encodedPassword) } returns true
-            every { generateJwtPort.generate(account.idx) } returns signInResponse
+            every { generateJwtPort.generate(account.idx, Authority.ROLE_ACCOUNT) } returns signInResponse
 
             val result = signInUseCase.execute(request)
 
             Then("토큰이 발급이 되어야 한다.") {
-                verify(exactly = 1) { generateJwtPort.generate(account.idx) }
+                verify(exactly = 1) { generateJwtPort.generate(account.idx, Authority.ROLE_ACCOUNT) }
             }
 
             Then("결과값이 signInResponse와 같아야 한다.") {

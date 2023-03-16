@@ -23,6 +23,8 @@ class JwtProperties(
         const val refreshType = "refresh"
         const val tokenPrefix = "Bearer "
         const val tokenHeader = "Authorization"
+        const val authority = "authority"
+        const val tokenType = "tokenType"
     }
 
 }
