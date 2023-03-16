@@ -21,7 +21,7 @@ class SignInUseCase(
         if (!passwordEncodePort.isPasswordMatch(request.password, account.encodedPassword)) {
             throw PasswordNotCorrectException()
         }
-        return generateJwtPort.generate(account.idx)
+        return generateJwtPort.generate(account.idx, account.authority)
     }
 
 }
