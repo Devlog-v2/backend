@@ -17,7 +17,7 @@ class UpdateCommentUseCase(
         queryCommentPort.queryByCommentIdx(commentIdx)
             .let { it ?: throw CommentNotFountException() }
             .let {
-                commandCommentPort.updateComment(
+                commandCommentPort.saveComment(
                     it.copy(
                         comment = request.comment,
                     )

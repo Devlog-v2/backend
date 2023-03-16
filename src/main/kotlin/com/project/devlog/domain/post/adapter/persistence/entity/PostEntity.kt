@@ -1,7 +1,7 @@
 package com.project.devlog.domain.post.adapter.persistence.entity
 
 import com.project.devlog.domain.account.adapter.persistence.entity.AccountEntity
-import com.project.devlog.global.entity.BaseTimeEntity
+import com.project.devlog.global.entity.BaseDateEntity
 import org.hibernate.annotations.GenericGenerator
 import java.util.*
 import javax.persistence.*
@@ -25,11 +25,4 @@ class PostEntity(
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "post_image", joinColumns = [JoinColumn(name = "post_idx")])
     var images: List<String>?
-): BaseTimeEntity()
-
-fun PostEntity.toUpdate(title: String, content: String, tag: List<String>, images: List<String>?) {
-    this.title = title
-    this.content = content
-    this.tag = tag
-    this.images = images
-}
+): BaseDateEntity()

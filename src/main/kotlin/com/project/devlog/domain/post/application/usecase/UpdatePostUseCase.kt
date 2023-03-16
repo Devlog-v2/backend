@@ -7,7 +7,7 @@ import com.project.devlog.domain.post.exception.PostNotFoundException
 import com.project.devlog.global.annotation.UseCase
 import com.project.devlog.infrastructure.s3.application.port.S3Port
 import org.springframework.web.multipart.MultipartFile
-import java.util.UUID
+import java.util.*
 
 @UseCase
 class UpdatePostUseCase(
@@ -21,7 +21,7 @@ class UpdatePostUseCase(
             .let { it ?: throw PostNotFoundException() }
             .let {
                 val uploadImages = fileList?.let { s3Port.uploadFile(fileList, "post/") }
-                commandPostPort.updatePost(
+                commandPostPort.savePost(
                     it.copy(title = request.title, content = request.content, tag = request.tag, images = uploadImages)
                 )
             }
