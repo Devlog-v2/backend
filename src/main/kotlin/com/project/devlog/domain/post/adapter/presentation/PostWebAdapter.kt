@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
-import java.util.UUID
+import java.util.*
 
 @RestController
 @RequestMapping("api/v2/post")
@@ -19,6 +19,7 @@ class PostWebAdapter(
     private val deletePostUseCase: DeletePostUseCase,
     private val queryPostDetatilUseCase: QueryPostDetatilUseCase,
     private val queryPostAllPostUseCase: QueryAllPostUseCase,
+    private val queryPostSearchUseCase: QueryPostSearchUseCase
 ) {
 
     @PostMapping
@@ -49,8 +50,13 @@ class PostWebAdapter(
             .let { ResponseEntity.ok(it) }
 
     @GetMapping
-    fun findAllPost(@RequestParam page: Int, size: Int): ResponseEntity<List<PostListResponse>> =
-        queryPostAllPostUseCase.execute(page, size)
+    fun findAllPost(): ResponseEntity<List<PostListResponse>> =
+        queryPostAllPostUseCase.execute()
+            .let { ResponseEntity.ok(it) }
+
+    @GetMapping("search")
+    fun findAllPost(@RequestParam title: String): ResponseEntity<List<PostListResponse>> =
+        queryPostSearchUseCase.execute(title)
             .let { ResponseEntity.ok(it) }
 
 }
