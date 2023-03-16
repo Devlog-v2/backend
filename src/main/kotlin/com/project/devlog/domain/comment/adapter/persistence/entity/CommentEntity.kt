@@ -2,7 +2,7 @@ package com.project.devlog.domain.comment.adapter.persistence.entity
 
 import com.project.devlog.domain.account.adapter.persistence.entity.AccountEntity
 import com.project.devlog.domain.post.adapter.persistence.entity.PostEntity
-import com.project.devlog.global.entity.BaseTimeEntity
+import com.project.devlog.global.entity.BaseDateEntity
 import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
@@ -23,8 +23,4 @@ class CommentEntity(
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     val post: PostEntity
-): BaseTimeEntity()
-
-fun CommentEntity.toUpdate(comment: String) {
-    this.comment = comment
-}
+): BaseDateEntity()
