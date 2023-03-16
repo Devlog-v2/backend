@@ -21,6 +21,7 @@ enum class ErrorCode(
 
     // LIKE
     LIKE_NOT_FOUND("좋아요를 누르지 않은 계정입니다.", 404),
+    DUPLICATE_LIKE("이미 좋아요를 누른 계정입니다.", 409),
 
     // COMMENT
     COMMENT_NOT_FOUND("댓글을 찾을 수 없습니다.", 404),
