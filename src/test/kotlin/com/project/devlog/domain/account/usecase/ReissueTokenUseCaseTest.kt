@@ -1,5 +1,6 @@
 package com.project.devlog.domain.account.usecase
 
+import com.project.devlog.domain.account.Account
 import com.project.devlog.domain.account.RefreshToken
 import com.project.devlog.domain.account.adapter.presentation.data.enumType.Authority
 import com.project.devlog.domain.account.adapter.presentation.data.response.SignInResponse
@@ -25,12 +26,21 @@ class ReissueTokenUseCaseTest: BehaviorSpec({
     val queryAccountPort = mockk<QueryAccountPort>()
     val reissueTokenUseCase = ReissueTokenUseCase(generateJwtPort, refreshTokenPort, jwtParserPort, queryAccountPort)
 
+    // refresh
+    val refreshToken = "Bearer sdfsfsfsdf"
+    val parsedRefreshToken = "sdfsfsfsdf"
+    val accountIdx = UUID.randomUUID()
+    val expiredAt = 1800
+
+    // account
+    val idx = UUID.randomUUID()
+    val email = "test@test.com"
+    val password = "test password"
+    val name = "test name"
+
     Given("RefreshToken이 주어졌을때") {
-        val refreshToken = "Bearer sdfsfsfsdf"
-        val parsedRefreshToken = "sdfsfsfsdf"
-        val accountIdx = UUID.randomUUID()
-        val expiredAt = 1800
         val refreshTokenDomain = RefreshToken(parsedRefreshToken, accountIdx, expiredAt)
+        val account = Account(idx, email, password, name, Authority.ROLE_ACCOUNT)
         val signInResponse = SignInResponse(
             accessToken = "sdfsfs",
             refreshToken = "safsdf",
@@ -38,6 +48,7 @@ class ReissueTokenUseCaseTest: BehaviorSpec({
         )
 
         every { jwtParserPort.parseRefershToken(refreshToken) } returns parsedRefreshToken
+        every { queryAccountPort.queryAccountByIdx(refreshTokenDomain.accountIdx) } returns account
         every { refreshTokenPort.queryByRefreshToken(parsedRefreshToken) } returns refreshTokenDomain
         every { jwtParserPort.isRefreshTokenExpired(parsedRefreshToken) } returns false
         every { generateJwtPort.generate(refreshTokenDomain.accountIdx, Authority.ROLE_ACCOUNT) } returns signInResponse

@@ -1,6 +1,7 @@
 package com.project.devlog.domain.account.usecase
 
 import com.project.devlog.domain.account.Account
+import com.project.devlog.domain.account.adapter.presentation.data.enumType.Authority
 import com.project.devlog.domain.account.adapter.presentation.data.request.SignUpRequest
 import com.project.devlog.domain.account.application.port.CommandAccountPort
 import com.project.devlog.domain.account.application.port.PasswordEncodePort
@@ -21,6 +22,7 @@ class SignUpUseCaseTest: BehaviorSpec({
     val passwordEncodePort = mockk<PasswordEncodePort>()
     val signUpUseCase = SignUpUseCase(commandAccountPort, queryAccountPort, passwordEncodePort)
 
+    // account
     val idx = UUID.randomUUID()
     val email = "test@test.com"
     val password = "test password"
@@ -30,12 +32,11 @@ class SignUpUseCaseTest: BehaviorSpec({
     Given("SignUpRequest가 주어 졌을때") {
         val request = SignUpRequest(email, password, name)
         val duplicateEmailRequest = SignUpRequest(email, password, name)
-        val account = Account(idx, email, password, name)
-        val saveAccount = Account(idx, email, encodedPassword, name)
+        val saveAccount = Account(idx, email, encodedPassword, name, Authority.ROLE_ACCOUNT)
 
         every { queryAccountPort.existsAccountByEmail(request.email) } returns false
         every { passwordEncodePort.passwordEncode(request.password) } returns encodedPassword
-        every { commandAccountPort.saveAccount(account, encodedPassword) } returns saveAccount
+        every { commandAccountPort.saveAccount(any(), encodedPassword) } returns saveAccount
 
         When("회원가입 요청을 하면") {
 
@@ -46,7 +47,7 @@ class SignUpUseCaseTest: BehaviorSpec({
             }
 
             Then("계정이 생성 되어야 한다.") {
-                verify(exactly = 1) { commandAccountPort.saveAccount(account, encodedPassword) }
+                verify(exactly = 1) { commandAccountPort.saveAccount(any(), encodedPassword) }
             }
 
             Then("accountIdx이 null이 아니여야 한다.") {

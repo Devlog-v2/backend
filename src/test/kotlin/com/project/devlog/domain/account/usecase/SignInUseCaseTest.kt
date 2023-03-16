@@ -25,6 +25,7 @@ class SignInUseCaseTest: BehaviorSpec({
     val passwordEncodePort = mockk<PasswordEncodePort>()
     val signInUseCase = SignInUseCase(accountPort, generateJwtPort, passwordEncodePort)
 
+    // account
     val idx = UUID.randomUUID()
     val email = "test@test.com"
     val password = "test password"
