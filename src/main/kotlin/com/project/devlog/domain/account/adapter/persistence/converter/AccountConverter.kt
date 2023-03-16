@@ -2,7 +2,7 @@ package com.project.devlog.domain.account.adapter.persistence.converter
 
 import com.project.devlog.domain.account.Account
 import com.project.devlog.domain.account.adapter.persistence.entity.AccountEntity
-import com.project.devlog.domain.account.adapter.presentation.data.enumType.Autority
+import com.project.devlog.domain.account.adapter.presentation.data.enumType.Authority
 import org.springframework.stereotype.Component
 import java.util.Collections
 
@@ -16,7 +16,7 @@ class AccountConverter {
                 email = it.email,
                 encodedPassword = encodedPassword,
                 name = it.name,
-                authority = Collections.singletonList(Autority.ROLE_ACCOUNT)
+                authority = Authority.ROLE_ACCOUNT
             )
         }
 
@@ -26,7 +26,8 @@ class AccountConverter {
                 idx = it.idx,
                 email = it.email,
                 encodedPassword = it.encodedPassword,
-                name = it.name
+                name = it.name,
+                authority = entity.authority
             )
         }
 

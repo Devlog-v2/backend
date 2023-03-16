@@ -1,6 +1,6 @@
 package com.project.devlog.domain.account.adapter.persistence.entity
 
-import com.project.devlog.domain.account.adapter.presentation.data.enumType.Autority
+import com.project.devlog.domain.account.adapter.presentation.data.enumType.Authority
 import org.hibernate.annotations.GenericGenerator
 import java.util.*
 import javax.persistence.*
@@ -16,7 +16,5 @@ class AccountEntity(
     val email: String,
     val encodedPassword: String,
     val name: String,
-    @ElementCollection(fetch = FetchType.LAZY) // 즉시 로딩
-    @Enumerated(EnumType.STRING) @CollectionTable(name = "account_authority", joinColumns = [JoinColumn(name = "account_idx")])
-    val authority: MutableList<Autority>
+    val authority: Authority
 )
