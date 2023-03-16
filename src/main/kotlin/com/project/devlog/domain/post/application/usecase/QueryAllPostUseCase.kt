@@ -7,7 +7,6 @@ import com.project.devlog.domain.post.adapter.presentation.data.response.PostLis
 import com.project.devlog.domain.post.adapter.presentation.data.response.WriterResponse
 import com.project.devlog.domain.post.application.port.QueryPostPort
 import com.project.devlog.global.annotation.ReadOnlyUseCase
-import org.springframework.data.domain.PageRequest
 import java.util.UUID
 
 @ReadOnlyUseCase
@@ -17,9 +16,8 @@ class QueryAllPostUseCase(
     private val queryLikePort: QueryLikePort
 ) {
 
-    fun execute(page: Int, size: Int): List<PostListResponse> {
-        val pageRequest = PageRequest.of(page, size)
-        return queryPostPort.queryAllPost(pageRequest)
+    fun execute(): List<PostListResponse> =
+        queryPostPort.queryAllPost()
             .map {
                 PostListResponse(
                     idx = it.idx,
@@ -27,10 +25,10 @@ class QueryAllPostUseCase(
                     content = it.content,
                     writer = findAccountByIdx(it.accountIdx),
                     likeCount = queryLikePort.queryCountByPostIdx(it.idx),
-                    images = it.images!!
+                    images = it.images!!,
+                    createdDate = it.createdDate
                 )
             }
-    }
 
     private fun findAccountByIdx(idx: UUID): WriterResponse =
         queryAccountPort.queryAccountByIdx(idx)

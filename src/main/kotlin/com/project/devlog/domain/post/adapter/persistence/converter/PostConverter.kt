@@ -34,7 +34,8 @@ class PostConverter(
                 content = it.content,
                 accountIdx = it.account.idx,
                 tag = it.tag,
-                images = it.images
+                images = it.images,
+                createdDate = it.createdAt
             )
         }
 }

@@ -1,6 +1,7 @@
 package com.project.devlog.domain.post
 
-import java.util.UUID
+import java.time.LocalDate
+import java.util.*
 
 data class Post(
     val idx: UUID,
@@ -8,5 +9,6 @@ data class Post(
     val content: String,
     val accountIdx: UUID,
     val tag: List<String>,
-    val images: List<String>?
+    val images: List<String>?,
+    val createdDate: LocalDate
 )
