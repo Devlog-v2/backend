@@ -6,11 +6,18 @@ plugins {
 	kotlin("jvm") version "1.6.10"
 	kotlin("plugin.spring") version "1.6.10"
 	kotlin("plugin.jpa") version "1.6.10"
+	kotlin("kapt") version "1.4.10"
 }
 
 group = "com.project"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
+
+configurations {
+	compileOnly {
+		extendsFrom(configurations.annotationProcessor.get())
+	}
+}
 
 repositories {
 	mavenCentral()
@@ -24,6 +31,10 @@ dependencies {
 	// database
 	implementation("mysql:mysql-connector-java")
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+
+	// query dsl
+	implementation("com.querydsl:querydsl-jpa:5.0.0")
+	kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
 
 	// web
 	implementation("org.springframework.boot:spring-boot-starter-web")
