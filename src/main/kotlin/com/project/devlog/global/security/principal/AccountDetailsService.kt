@@ -15,18 +15,9 @@ class AccountDetailsService(
     private val accountRepository: AccountRepository
 ): UserDetailsService {
 
-    override fun loadUserByUsername(username: String): UserDetails {
-        println(username)
-        println(UUID.fromString(username))
-        println(UUID.fromString(username) == UUID.fromString("3d4782cb-531c-482e-a69f-c6032367ea71"))
-
-        val account = accountRepository.findByIdOrNull(UUID.fromString(username)) ?: throw AccountNotFoundException()
-
-        println(account.idx)
-
-        return AccountDetails(
-            account.idx
-        )
-    }
+    override fun loadUserByUsername(username: String): UserDetails =
+        accountRepository.findByIdOrNull(UUID.fromString(username))
+            .let { it ?: throw AccountNotFoundException() }
+            .let { AccountDetails(it.idx) }
 
 }
