@@ -1,6 +1,7 @@
 package com.project.devlog.domain.account.adapter.presentation.data.request
 
 import com.project.devlog.domain.account.Account
+import com.project.devlog.domain.account.adapter.presentation.data.enumType.Authority
 import java.util.UUID
 
 data class SignUpRequest(
@@ -10,4 +11,4 @@ data class SignUpRequest(
 )
 
 fun SignUpRequest.toDomain(): Account =
-    Account(idx = UUID.randomUUID(), email = email, encodedPassword = password, name = name)
+    Account(idx = UUID.randomUUID(), email = email, encodedPassword = password, name = name, authority = Authority.ROLE_ACCOUNT)
