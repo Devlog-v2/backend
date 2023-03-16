@@ -13,7 +13,7 @@ class UpdateCommentUseCase(
     private val queryCommentPort: QueryCommentPort
 ) {
 
-    fun execute(commentIdx: UUID, request: UpdateCommentRequest) =
+    fun execute(commentIdx: UUID, request: UpdateCommentRequest): UUID =
         queryCommentPort.queryByCommentIdx(commentIdx)
             .let { it ?: throw CommentNotFountException() }
             .let {
@@ -22,6 +22,6 @@ class UpdateCommentUseCase(
                         comment = request.comment,
                     )
                 )
-            }
+            }.idx
 
 }
