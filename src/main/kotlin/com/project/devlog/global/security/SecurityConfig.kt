@@ -1,5 +1,6 @@
 package com.project.devlog.global.security
 
+import com.project.devlog.domain.account.adapter.presentation.data.enumType.Authority
 import com.project.devlog.domain.account.application.port.JwtParserPort
 import com.project.devlog.global.filter.config.FilterConfig
 import com.project.devlog.global.security.handler.CustomAuthenticationEntryPoint
@@ -32,14 +33,35 @@ class SecurityConfig(
             .and()
 
             .authorizeRequests()
-            .antMatchers(HttpMethod.POST, "/api/v2/auth/signup").permitAll()
-            .antMatchers(HttpMethod.POST, "/api/v2/auth/signin").permitAll()
-            .antMatchers(HttpMethod.PATCH, "/api/v2/auth/reissue").permitAll()
 
-            .antMatchers(HttpMethod.GET, "/api/v2/post/**").permitAll()
+            // /auth
+            .mvcMatchers(HttpMethod.POST, "/api/v2/auth/signup").permitAll()
+            .mvcMatchers(HttpMethod.POST, "/api/v2/auth/signin").permitAll()
+            .mvcMatchers(HttpMethod.PATCH, "/api/v2/auth/reissue").permitAll()
 
-            .antMatchers(HttpMethod.GET, "/").permitAll()
-            .anyRequest().authenticated()
+            // /account
+            .mvcMatchers(HttpMethod.GET, "/api/v2/account/calendar").hasAnyAuthority(Authority.ROLE_ACCOUNT.name, Authority.ROLE_ADMIN.name)
+
+            // /post
+            .mvcMatchers(HttpMethod.POST, "/api/v2/post").hasAnyAuthority(Authority.ROLE_ACCOUNT.name, Authority.ROLE_ADMIN.name)
+            .mvcMatchers(HttpMethod.PATCH, "/api/v2/post/{postIdx}").hasAnyAuthority(Authority.ROLE_ACCOUNT.name, Authority.ROLE_ADMIN.name)
+            .mvcMatchers(HttpMethod.DELETE, "/api/v2/post/{postIdx}").hasAnyAuthority(Authority.ROLE_ACCOUNT.name, Authority.ROLE_ADMIN.name)
+            .mvcMatchers(HttpMethod.GET, "/api/v2/post").permitAll()
+            .mvcMatchers(HttpMethod.GET, "/api/v2/post/{postIdx}").permitAll()
+            .mvcMatchers(HttpMethod.GET, "/api/v2/post/search/**").permitAll()
+
+            // /comment
+            .mvcMatchers(HttpMethod.POST, "/api/v2/comment/{postIdx}").hasAnyAuthority(Authority.ROLE_ACCOUNT.name, Authority.ROLE_ADMIN.name)
+            .mvcMatchers(HttpMethod.PATCH, "/api/v2/comment/{commentIdx}").hasAnyAuthority(Authority.ROLE_ACCOUNT.name, Authority.ROLE_ADMIN.name)
+            .mvcMatchers(HttpMethod.DELETE, "/api/v2/comment/{commentIdx}").hasAnyAuthority(Authority.ROLE_ACCOUNT.name, Authority.ROLE_ADMIN.name)
+
+            // /like
+            .mvcMatchers(HttpMethod.POST, "/api/v2/like/{postIdx}").hasAnyAuthority(Authority.ROLE_ACCOUNT.name, Authority.ROLE_ADMIN.name)
+            .mvcMatchers(HttpMethod.DELETE, "/api/v2/like/{postIdx}").hasAnyAuthority(Authority.ROLE_ACCOUNT.name, Authority.ROLE_ADMIN.name)
+
+            // health
+            .mvcMatchers(HttpMethod.GET, "/").permitAll()
+            .anyRequest().denyAll()
             .and()
 
             .exceptionHandling()
