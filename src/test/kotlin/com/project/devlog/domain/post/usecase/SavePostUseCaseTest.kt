@@ -60,8 +60,7 @@ class SavePostUseCaseTest: BehaviorSpec({
         fileName, "image/test_image.jpg", contentType, FileInputStream(File(filePath))
     )
 
-    Given("계정과 postRequest, file이 주어졌을때") {
-
+    Given("account, writePostRequest, file이 주어졌을때") {
         val accountEntity = AccountEntity(accountIdx, email, password, name, Authority.ROLE_ACCOUNT)
         every { accountRepository.save(accountEntity) } returns accountEntity
         accountRepository.save(accountEntity)
@@ -98,7 +97,7 @@ class SavePostUseCaseTest: BehaviorSpec({
                 verify(exactly = 1) { s3UploadPort.uploadFile(mutableListOf(file), "post/") }
             }
 
-            Then("게시글이 생성 되어야 한다.") {
+            Then("게시글이 저장 되어야 한다.") {
                 verify(exactly = 1) { commandPostPort.savePost(any()) }
             }
 

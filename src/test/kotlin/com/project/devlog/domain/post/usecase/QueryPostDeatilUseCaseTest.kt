@@ -29,12 +29,11 @@ class QueryPostDeatilUseCaseTest: BehaviorSpec({
 
     // account
     val accountIdx = UUID.randomUUID()
-    val email = "test email"
+    val email = "test@test.com"
     val name = "test name"
     val password = "test password"
 
     // post
-    val postIdx = UUID.randomUUID()
     val title = "test title"
     val content = "test content"
     val tag = mutableListOf("test tag1", "test tag2")
@@ -46,6 +45,7 @@ class QueryPostDeatilUseCaseTest: BehaviorSpec({
     val comment = "test comment"
 
     Given("postIdx가 주어질때") {
+        val postIdx = UUID.randomUUID()
         val postDomain = Post(postIdx, title, content, accountIdx, tag, images, createdAt)
         val commentDomain = Comment(commentIdx, comment, accountIdx, postIdx)
         val account = Account(accountIdx, email, password, name, Authority.ROLE_ACCOUNT)

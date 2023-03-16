@@ -22,7 +22,7 @@ class QueryAllPostUseCaseTest: BehaviorSpec({
 
     // account
     val accountIdx = UUID.randomUUID()
-    val email = "test email"
+    val email = "test@test.com"
     val name = "test name"
     val password = "test password"
 
@@ -34,7 +34,7 @@ class QueryAllPostUseCaseTest: BehaviorSpec({
     val images = mutableListOf("test image1", "test image2")
     val createdAt = LocalDate.now()
 
-    Given("음.. 아무것도 주어지지 않는데..") {
+    Given("") {
         val postDomain = Post(postIdx, title, content, accountIdx, tag, images, createdAt)
         val account = Account(accountIdx, email, password, name, Authority.ROLE_ACCOUNT)
 

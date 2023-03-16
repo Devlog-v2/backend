@@ -47,9 +47,8 @@ class UpdatePostUseCaseTest: BehaviorSpec({
     val name = "test name"
 
     // post
-    val postIdx = UUID.randomUUID()
-    val title = "test title"
-    val content = "test content"
+    val title = "update test title"
+    val content = "update test content"
     val tag = mutableListOf("test tag1", "test tag2")
     val images = mutableListOf("test image1", "test image2")
     val createdAt = LocalDate.now()
@@ -62,7 +61,8 @@ class UpdatePostUseCaseTest: BehaviorSpec({
         fileName, "image/test_image.jpg", contentType, FileInputStream(File(filePath))
     )
 
-    Given("계정과 updatePostRequest, file이 주어졌을때") {
+    Given("account, postIdx, updatePostRequest, file이 주어졌을때") {
+        val postIdx = UUID.randomUUID()
 
         val accountEntity = AccountEntity(accountIdx, email, password, name, Authority.ROLE_ACCOUNT)
         every { accountRepository.save(accountEntity) } returns accountEntity
@@ -87,11 +87,11 @@ class UpdatePostUseCaseTest: BehaviorSpec({
         SecurityContextHolder.getContext().authentication = authentication
 
         val updatePostRequest = UpdatePostRequest(title, content, tag)
-        val post = Post(postIdx, title, content, accountIdx, tag, images, createdAt)
+        val postDomain = Post(postIdx, title, content, accountIdx, tag, images, createdAt)
 
-        every { queryPostPort.queryPostById(postIdx) } returns post
+        every { queryPostPort.queryPostById(postIdx) } returns postDomain
         every { s3UploadPort.uploadFile(mutableListOf(file), "post/") } returns mutableListOf(String())
-        every { commandPostPort.savePost(any()) } returns post
+        every { commandPostPort.savePost(any()) } returns postDomain
 
         When("게시글 수정을 요청하면") {
             val result = updatePostUseCase.execute(postIdx, mutableListOf(file),updatePostRequest )
