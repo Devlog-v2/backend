@@ -9,6 +9,5 @@ data class Post(
     val content: String,
     val accountIdx: UUID,
     val tag: List<String>,
-    val images: List<String>?,
     val createdDate: LocalDate
 )

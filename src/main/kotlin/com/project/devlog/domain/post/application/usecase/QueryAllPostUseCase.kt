@@ -25,13 +25,12 @@ class QueryAllPostUseCase(
                     content = it.content,
                     writer = findAccountByIdx(it.accountIdx),
                     likeCount = queryLikePort.queryCountByPostIdx(it.idx),
-                    images = it.images!!,
                     createdDate = it.createdDate
                 )
             }
 
-    private fun findAccountByIdx(idx: UUID): WriterResponse =
-        queryAccountPort.queryAccountByIdx(idx)
+    private fun findAccountByIdx(accountIdx: UUID): WriterResponse =
+        queryAccountPort.queryAccountByIdx(accountIdx)
             .let { it ?: throw AccountNotFoundException() }
             .let { WriterResponse(it.idx, it.name, false) }
 

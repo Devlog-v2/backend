@@ -1,7 +1,7 @@
 package com.project.devlog.domain.post.adapter.presentation.data.response
 
 import java.time.LocalDate
-import java.util.UUID
+import java.util.*
 
 data class PostListResponse(
     val idx: UUID,
@@ -9,6 +9,5 @@ data class PostListResponse(
     val content: String,
     val writer: WriterResponse,
     val likeCount: Int,
-    val images: List<String>,
     val createdDate: LocalDate
 )

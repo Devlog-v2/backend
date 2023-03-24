@@ -25,7 +25,6 @@ class QueryPostSearchUseCase(
                     content = it.content,
                     writer = findAccountByIdx(it.accountIdx),
                     likeCount = queryLikePort.queryCountByPostIdx(it.idx),
-                    images = it.images!!,
                     createdDate = it.createdDate
                 )
             }

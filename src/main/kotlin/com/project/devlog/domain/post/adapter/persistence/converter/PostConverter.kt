@@ -21,7 +21,6 @@ class PostConverter(
                 content = it.content,
                 account = account,
                 tag = it.tag,
-                images = it.images
             )
         }
     }
@@ -34,7 +33,6 @@ class PostConverter(
                 content = it.content,
                 accountIdx = it.account.idx,
                 tag = it.tag,
-                images = it.images,
                 createdDate = it.createdAt
             )
         }

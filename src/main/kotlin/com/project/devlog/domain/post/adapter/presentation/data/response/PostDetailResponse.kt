@@ -13,6 +13,5 @@ data class PostDetailResponse(
     val comment: List<CommentResponse>,
     val like: LikeResponse,
     val tag: List<String>,
-    val images: List<String>,
     val createdDate: LocalDate
 )

@@ -8,7 +8,6 @@ import com.project.devlog.domain.post.application.usecase.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.multipart.MultipartFile
 import java.util.*
 
 @RestController
@@ -23,20 +22,13 @@ class PostWebAdapter(
 ) {
 
     @PostMapping
-    fun savePost(
-        @RequestPart(value = "file") fileList: MutableList<MultipartFile>?,
-        @RequestPart request: WritePostRequest
-    ): ResponseEntity<Void> =
-        savePostUseCase.execute(fileList, request)
+    fun savePost(@RequestBody request: WritePostRequest): ResponseEntity<Void> =
+        savePostUseCase.execute(request)
             .let { ResponseEntity.status(HttpStatus.CREATED).build() }
 
     @PatchMapping("{postIdx}")
-    fun updatePost(
-        @PathVariable postIdx: UUID,
-        @RequestPart(value = "file") fileList: MutableList<MultipartFile>?,
-        @RequestPart request: UpdatePostRequest
-    ): ResponseEntity<Void> =
-        updatePostUseCase.execute(postIdx, fileList, request)
+    fun updatePost(@PathVariable postIdx: UUID, @RequestPart request: UpdatePostRequest): ResponseEntity<Void> =
+        updatePostUseCase.execute(postIdx, request)
             .let { ResponseEntity.ok().build() }
 
     @DeleteMapping("{postIdx}")
@@ -55,7 +47,7 @@ class PostWebAdapter(
             .let { ResponseEntity.ok(it) }
 
     @GetMapping("search")
-    fun findAllPost(@RequestParam title: String): ResponseEntity<List<PostListResponse>> =
+    fun searchPost(@RequestParam title: String): ResponseEntity<List<PostListResponse>> =
         queryPostSearchUseCase.execute(title)
             .let { ResponseEntity.ok(it) }
 
