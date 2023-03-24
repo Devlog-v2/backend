@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/v2/auth")
-class AccountAuthWebAdapter(
+class AuthWebAdapter(
     private val signUpUseCase: SignUpUseCase,
     private val signInUseCase: SignInUseCase,
     private val reissueTokenUseCase: ReissueTokenUseCase
