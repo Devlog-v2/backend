@@ -23,12 +23,11 @@ class DeletePostUseCaseTest: BehaviorSpec({
     val title = "test title"
     val content = "test content"
     val tag = mutableListOf("test tag1", "test tag2")
-    val images = mutableListOf("test image1", "test image2")
     val createdAt = LocalDate.now()
 
     Given("postIdx가 주어졌을때") {
         val postIdx = UUID.randomUUID()
-        val postDomain = Post(postIdx, title, content, accountIdx, tag, images, createdAt)
+        val postDomain = Post(postIdx, title, content, accountIdx, tag, createdAt)
 
         every { queryPostPort.queryPostById(postIdx) } returns postDomain
         every { commandPostPort.deletePost(any()) } returns Unit

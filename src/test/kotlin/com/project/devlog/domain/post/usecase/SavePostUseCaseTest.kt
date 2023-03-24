@@ -13,17 +13,13 @@ import com.project.devlog.domain.post.application.port.CommandPostPort
 import com.project.devlog.domain.post.application.usecase.SavePostUseCase
 import com.project.devlog.global.security.principal.AccountDetails
 import com.project.devlog.global.security.principal.AccountDetailsService
-import com.project.devlog.infrastructure.s3.application.port.S3UploadPort
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import org.springframework.mock.web.MockMultipartFile
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
-import java.io.File
-import java.io.FileInputStream
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
@@ -31,8 +27,7 @@ import java.util.*
 class SavePostUseCaseTest: BehaviorSpec({
     val commandPostPort = mockk<CommandPostPort>()
     val accountSecurityPort = mockk<AccountSecurityPort>()
-    val s3UploadPort = mockk<S3UploadPort>()
-    val savePostUseCase = SavePostUseCase(commandPostPort, accountSecurityPort, s3UploadPort)
+    val savePostUseCase = SavePostUseCase(commandPostPort, accountSecurityPort)
     val accountRepository = mockk<AccountRepository>(relaxed = true)
     val generateJwtPort = mockk<GenerateJwtPort>()
     val jwtParserPort = mockk<JwtParserPort>()
@@ -49,19 +44,10 @@ class SavePostUseCaseTest: BehaviorSpec({
     val title = "test title"
     val content = "test content"
     val tag = mutableListOf("test tag1", "test tag2")
-    val images = mutableListOf("test image1", "test image2")
     val createdAt = LocalDate.now()
 
-    // post_image
-    val fileName = "test_image"
-    val contentType = "image/jpg"
-    val filePath = "src/test/resources/image/test_image.jpg"
-    val file = MockMultipartFile(
-        fileName, "image/test_image.jpg", contentType, FileInputStream(File(filePath))
-    )
-
     Given("account, writePostRequest, file이 주어졌을때") {
-        val accountEntity = AccountEntity(accountIdx, email, password, name, Authority.ROLE_ACCOUNT)
+        val accountEntity = AccountEntity(accountIdx, email, password, name, null, null, null, null,Authority.ROLE_ACCOUNT)
         every { accountRepository.save(accountEntity) } returns accountEntity
         accountRepository.save(accountEntity)
 
@@ -84,18 +70,13 @@ class SavePostUseCaseTest: BehaviorSpec({
         SecurityContextHolder.getContext().authentication = authentication
 
         val postRequest = WritePostRequest(title, content, tag)
-        val post = Post(postIdx, title, content, accountIdx, tag, images, createdAt)
+        val post = Post(postIdx, title, content, accountIdx, tag, createdAt)
 
         every { accountSecurityPort.getCurrentAccountIdx() } returns accountIdx
-        every { s3UploadPort.uploadFile(mutableListOf(file), "post/") } returns mutableListOf(String())
         every { commandPostPort.savePost(any()) } returns post
 
         When("게시글 생성을 요청하면") {
-            val result = savePostUseCase.execute(mutableListOf(file), postRequest)
-
-            Then("s3에 이미지 저장 로직이 실행이 되야한다.") {
-                verify(exactly = 1) { s3UploadPort.uploadFile(mutableListOf(file), "post/") }
-            }
+            val result = savePostUseCase.execute(postRequest)
 
             Then("게시글이 저장 되어야 한다.") {
                 verify(exactly = 1) { commandPostPort.savePost(any()) }
