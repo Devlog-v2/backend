@@ -4,18 +4,21 @@ import com.project.devlog.domain.account.Account
 import com.project.devlog.domain.account.adapter.persistence.entity.AccountEntity
 import com.project.devlog.domain.account.adapter.presentation.data.enumType.Authority
 import org.springframework.stereotype.Component
-import java.util.Collections
 
 @Component
 class AccountConverter {
 
-    fun toEntity(domain: Account, encodedPassword: String): AccountEntity =
+    fun toEntity(domain: Account): AccountEntity =
         domain.let {
             AccountEntity(
                 idx = it.idx,
                 email = it.email,
-                encodedPassword = encodedPassword,
+                encodedPassword = it.encodedPassword,
                 name = it.name,
+                githubUrl = it.githubUrl,
+                profileUrl = it.profileUrl,
+                company = it.company,
+                readme = it.readme,
                 authority = Authority.ROLE_ACCOUNT
             )
         }
@@ -27,6 +30,10 @@ class AccountConverter {
                 email = it.email,
                 encodedPassword = it.encodedPassword,
                 name = it.name,
+                githubUrl = it.githubUrl,
+                profileUrl = it.profileUrl,
+                company = it.company,
+                readme = it.readme,
                 authority = entity.authority
             )
         }

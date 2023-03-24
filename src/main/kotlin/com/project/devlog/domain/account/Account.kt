@@ -7,6 +7,10 @@ data class Account(
     val idx: UUID,
     val email: String,
     val encodedPassword: String,
-    val name: String,
+    var name: String,
+    var githubUrl: String?,
+    var profileUrl: String?,
+    var company: String?,
+    var readme: String?,
     val authority: Authority
 )
