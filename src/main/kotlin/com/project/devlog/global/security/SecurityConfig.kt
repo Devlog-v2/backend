@@ -10,7 +10,7 @@ import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
-import org.springframework.security.crypto.factory.PasswordEncoderFactories
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 
@@ -40,6 +40,11 @@ class SecurityConfig(
             .mvcMatchers(HttpMethod.PATCH, "/api/v2/auth/reissue").permitAll()
 
             // /account
+            .mvcMatchers(HttpMethod.GET, "/api/v2/account").hasAnyAuthority(Authority.ROLE_ACCOUNT.name, Authority.ROLE_ADMIN.name)
+            .mvcMatchers(HttpMethod.GET, "/api/v2/account/{accountIdx}").hasAnyAuthority(Authority.ROLE_ACCOUNT.name, Authority.ROLE_ADMIN.name)
+            .mvcMatchers(HttpMethod.PATCH, "/api/v2/account").hasAnyAuthority(Authority.ROLE_ACCOUNT.name, Authority.ROLE_ADMIN.name)
+            .mvcMatchers(HttpMethod.GET, "/api/v2/account/post/{accountIdx}").hasAnyAuthority(Authority.ROLE_ACCOUNT.name, Authority.ROLE_ADMIN.name)
+            .mvcMatchers(HttpMethod.GET, "/api/v2/account/post/search/{accountIdx}").hasAnyAuthority(Authority.ROLE_ACCOUNT.name, Authority.ROLE_ADMIN.name)
             .mvcMatchers(HttpMethod.GET, "/api/v2/account/calendar").hasAnyAuthority(Authority.ROLE_ACCOUNT.name, Authority.ROLE_ADMIN.name)
 
             // /post
@@ -59,7 +64,10 @@ class SecurityConfig(
             .mvcMatchers(HttpMethod.POST, "/api/v2/like/{postIdx}").hasAnyAuthority(Authority.ROLE_ACCOUNT.name, Authority.ROLE_ADMIN.name)
             .mvcMatchers(HttpMethod.DELETE, "/api/v2/like/{postIdx}").hasAnyAuthority(Authority.ROLE_ACCOUNT.name, Authority.ROLE_ADMIN.name)
 
-            // health
+            // /image
+            .mvcMatchers(HttpMethod.POST, "/api/v2/image").hasAnyAuthority(Authority.ROLE_ACCOUNT.name, Authority.ROLE_ADMIN.name)
+
+            // /health
             .mvcMatchers(HttpMethod.GET, "/").permitAll()
             .anyRequest().denyAll()
             .and()
@@ -73,6 +81,6 @@ class SecurityConfig(
             .build()
 
     @Bean
-    fun passwordEncoder(): PasswordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder()
+    fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
 
 }
