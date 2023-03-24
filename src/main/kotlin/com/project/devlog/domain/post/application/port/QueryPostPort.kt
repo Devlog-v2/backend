@@ -10,5 +10,7 @@ interface QueryPostPort {
     fun queryAllPost(): List<Post>
     fun queryCountByOneYearAgo(accountIdx: UUID): List<PostCalendarResponse>
     fun querySearchByTitle(title: String): List<Post>
+    fun queryAllPostByAccountIdx(accountIdx: UUID): List<Post>
+    fun querySearchPostByAccountIdx(accountIdx: UUID, title: String): List<Post>
 
 }

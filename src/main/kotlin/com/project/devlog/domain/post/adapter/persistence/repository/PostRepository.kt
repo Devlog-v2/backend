@@ -7,6 +7,8 @@ import java.util.*
 interface PostRepository: CrudRepository<PostEntity, UUID> {
 
     fun findAllByOrderByCreatedAtDesc(): List<PostEntity>
-    fun findByTitleContaining(title: String): List<PostEntity>
+    fun findByTitleContainingOrderByCreatedAtDesc(title: String): List<PostEntity>
+    fun findByAccountIdxOrderByCreatedAtDesc(accountIdx: UUID): List<PostEntity>
+    fun findByAccountIdxAndTitleContainingOrderByCreatedAtDesc(accountIdx: UUID, title: String): List<PostEntity>
 
 }

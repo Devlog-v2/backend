@@ -34,6 +34,12 @@ class PostPersistenceAdapter(
         postRepositoryCustom.countByOneYearAgo(accountIdx)
 
     override fun querySearchByTitle(title: String): List<Post> =
-        postRepository.findByTitleContaining(title).map { postconverter.toDomain(it) }
+        postRepository.findByTitleContainingOrderByCreatedAtDesc(title).map { postconverter.toDomain(it) }
+
+    override fun queryAllPostByAccountIdx(accountIdx: UUID): List<Post> =
+        postRepository.findByAccountIdxOrderByCreatedAtDesc(accountIdx).map { postconverter.toDomain(it) }
+
+    override fun querySearchPostByAccountIdx(accountIdx: UUID, title: String): List<Post> =
+        postRepository.findByAccountIdxAndTitleContainingOrderByCreatedAtDesc(accountIdx, title).map { postconverter.toDomain(it) }
 
 }
