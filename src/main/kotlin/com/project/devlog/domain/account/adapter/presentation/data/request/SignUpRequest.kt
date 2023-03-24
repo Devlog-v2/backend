@@ -9,6 +9,3 @@ data class SignUpRequest(
     val password: String,
     val name: String
 )
-
-fun SignUpRequest.toDomain(): Account =
-    Account(idx = UUID.randomUUID(), email = email, encodedPassword = password, name = name, authority = Authority.ROLE_ACCOUNT)

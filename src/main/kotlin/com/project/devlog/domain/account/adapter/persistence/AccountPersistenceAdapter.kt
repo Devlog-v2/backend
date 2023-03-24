@@ -14,8 +14,8 @@ class AccountPersistenceAdapter(
     private val accountConverter: AccountConverter
 ): AccountPort {
 
-    override fun saveAccount(account: Account, encodedPassword: String): Account =
-        accountConverter.toDomain(accountRepository.save(accountConverter.toEntity(account, encodedPassword)))
+    override fun saveAccount(account: Account): Account =
+        accountConverter.toDomain(accountRepository.save(accountConverter.toEntity(account)))
 
     override fun existsAccountByEmail(email: String): Boolean =
         accountRepository.existsByEmail(email)
