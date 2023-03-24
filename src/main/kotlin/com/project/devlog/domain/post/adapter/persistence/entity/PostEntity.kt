@@ -14,15 +14,18 @@ class PostEntity(
     @GenericGenerator(name="uuid2", strategy = "uuid2")
     @Column(columnDefinition = "BINARY(16)", nullable = false, name = "post_idx")
     val idx: UUID,
+
+    @Column(nullable = false)
     var title: String,
+
+    @Column(nullable = false, columnDefinition = "TEXT")
     var content: String,
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_idx")
     val account: AccountEntity,
+
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "post_tag", joinColumns = [JoinColumn(name = "post_idx")])
     var tag: List<String>,
-    @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "post_image", joinColumns = [JoinColumn(name = "post_idx")])
-    var images: List<String>?
 ): BaseDateEntity()

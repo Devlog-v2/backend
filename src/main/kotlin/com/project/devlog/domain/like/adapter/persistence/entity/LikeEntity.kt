@@ -14,10 +14,14 @@ class LikeEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "like_idx", nullable = false)
     val idx: Long,
+
+    @Column(nullable = false)
     val isLiked: Boolean,
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_idx")
     val account: AccountEntity,
+
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "post_idx")
