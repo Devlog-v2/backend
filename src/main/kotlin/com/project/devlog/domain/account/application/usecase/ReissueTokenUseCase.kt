@@ -19,7 +19,7 @@ class ReissueTokenUseCase(
 ) {
 
     fun execute(request: String): SignInResponse {
-        val refreshToken = jwtParserPort.parseRefershToken(request) ?: throw InvalidTokenTypeException()
+        val refreshToken = jwtParserPort.parseRefreshToken(request) ?: throw InvalidTokenTypeException()
         val refreshTokenDomain = refreshTokenPort.queryByRefreshToken(refreshToken)
         val account = queryAccountPort.queryAccountByIdx(refreshTokenDomain.accountIdx) ?: throw AccountNotFoundException()
 
