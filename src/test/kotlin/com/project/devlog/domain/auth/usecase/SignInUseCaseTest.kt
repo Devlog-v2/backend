@@ -1,4 +1,4 @@
-package com.project.devlog.domain.account.usecase
+package com.project.devlog.domain.auth.usecase
 
 import com.project.devlog.domain.account.Account
 import com.project.devlog.domain.account.adapter.presentation.data.enumType.Authority
@@ -33,7 +33,7 @@ class SignInUseCaseTest: BehaviorSpec({
 
     Given("SignInRequest가 주어졌을때") {
         val request = SignInRequest(email, password)
-        val account = Account(idx, email, password, name, Authority.ROLE_ACCOUNT)
+        val account = Account(idx, email, password, name, null, null, null, null, Authority.ROLE_ACCOUNT)
         val signInResponse = SignInResponse(
             accessToken = "sdfsfs",
             refreshToken = "safsdf",

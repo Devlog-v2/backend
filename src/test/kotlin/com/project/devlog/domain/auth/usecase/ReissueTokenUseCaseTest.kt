@@ -1,4 +1,4 @@
-package com.project.devlog.domain.account.usecase
+package com.project.devlog.domain.auth.usecase
 
 import com.project.devlog.domain.account.Account
 import com.project.devlog.domain.account.RefreshToken
@@ -40,14 +40,14 @@ class ReissueTokenUseCaseTest: BehaviorSpec({
 
     Given("RefreshToken이 주어졌을때") {
         val refreshTokenDomain = RefreshToken(parsedRefreshToken, accountIdx, expiredAt)
-        val account = Account(idx, email, password, name, Authority.ROLE_ACCOUNT)
+        val account = Account(idx, email, password, name, null, null, null, null, Authority.ROLE_ACCOUNT)
         val signInResponse = SignInResponse(
             accessToken = "sdfsfs",
             refreshToken = "safsdf",
             accessTokenExpiredAt = LocalDateTime.now()
         )
 
-        every { jwtParserPort.parseRefershToken(refreshToken) } returns parsedRefreshToken
+        every { jwtParserPort.parseRefreshToken(refreshToken) } returns parsedRefreshToken
         every { queryAccountPort.queryAccountByIdx(refreshTokenDomain.accountIdx) } returns account
         every { refreshTokenPort.queryByRefreshToken(parsedRefreshToken) } returns refreshTokenDomain
         every { jwtParserPort.isRefreshTokenExpired(parsedRefreshToken) } returns false

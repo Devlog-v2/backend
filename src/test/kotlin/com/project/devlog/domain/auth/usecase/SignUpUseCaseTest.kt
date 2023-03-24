@@ -1,4 +1,4 @@
-package com.project.devlog.domain.account.usecase
+package com.project.devlog.domain.auth.usecase
 
 import com.project.devlog.domain.account.Account
 import com.project.devlog.domain.account.adapter.presentation.data.enumType.Authority
@@ -32,11 +32,11 @@ class SignUpUseCaseTest: BehaviorSpec({
     Given("SignUpRequest가 주어 졌을때") {
         val request = SignUpRequest(email, password, name)
         val duplicateEmailRequest = SignUpRequest(email, password, name)
-        val saveAccount = Account(idx, email, encodedPassword, name, Authority.ROLE_ACCOUNT)
+        val saveAccount = Account(idx, email, encodedPassword, name, null, null, null, null, Authority.ROLE_ACCOUNT)
 
         every { queryAccountPort.existsAccountByEmail(request.email) } returns false
         every { passwordEncodePort.passwordEncode(request.password) } returns encodedPassword
-        every { commandAccountPort.saveAccount(any(), encodedPassword) } returns saveAccount
+        every { commandAccountPort.saveAccount(any()) } returns saveAccount
 
         When("회원가입 요청을 하면") {
 
@@ -47,7 +47,7 @@ class SignUpUseCaseTest: BehaviorSpec({
             }
 
             Then("계정이 생성 되어야 한다.") {
-                verify(exactly = 1) { commandAccountPort.saveAccount(any(), encodedPassword) }
+                verify(exactly = 1) { commandAccountPort.saveAccount(any()) }
             }
 
             Then("accountIdx이 null이 아니여야 한다.") {
