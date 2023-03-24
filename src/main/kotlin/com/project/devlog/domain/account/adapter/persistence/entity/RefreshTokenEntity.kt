@@ -11,7 +11,9 @@ import java.util.concurrent.TimeUnit
 data class RefreshTokenEntity(
     @Id
     val refreshToken: String,
+
     val accountIdx: UUID,
+
     @TimeToLive(unit = TimeUnit.SECONDS)
     val expiredAt: Int
 )
