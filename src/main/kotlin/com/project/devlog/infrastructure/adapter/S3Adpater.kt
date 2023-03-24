@@ -1,4 +1,4 @@
-package com.project.devlog.infrastructure.s3.adapter
+package com.project.devlog.infrastructure.adapter
 
 import com.amazonaws.services.s3.AmazonS3
 import com.amazonaws.services.s3.model.CannedAccessControlList
@@ -6,8 +6,8 @@ import com.amazonaws.services.s3.model.DeleteObjectRequest
 import com.amazonaws.services.s3.model.ObjectMetadata
 import com.amazonaws.services.s3.model.PutObjectRequest
 import com.project.devlog.global.annotation.Adapter
-import com.project.devlog.infrastructure.s3.application.port.S3Port
-import com.project.devlog.infrastructure.s3.application.property.S3Properties
+import com.project.devlog.infrastructure.application.port.S3Port
+import com.project.devlog.infrastructure.application.property.S3Properties
 import org.springframework.web.multipart.MultipartFile
 import java.util.*
 
@@ -17,30 +17,22 @@ class S3Adpater(
     private val s3Properties: S3Properties
 ): S3Port {
 
-    override fun uploadFile(fileList: List<MultipartFile>, dirName: String): List<String> {
+    override fun uploadImage(image: MultipartFile): String {
+        val imageUrl = fileNameToUUID(image.originalFilename.toString())
+        val objectMetadata = ObjectMetadata()
+        objectMetadata.contentLength = image.size
+        objectMetadata.contentType = image.contentType
 
-        val fileNameList = mutableListOf<String>()
-
-        fileList.map { file ->
-            val fileName = fileNameToUUID(file.originalFilename.toString())
-            val objectMetadata = ObjectMetadata()
-            objectMetadata.contentLength = file.size
-            objectMetadata.contentType = file.contentType
-
-            runCatching {
-                amazonS3.putObject(
-                    PutObjectRequest(s3Properties.bucket, dirName + fileName, file.inputStream, objectMetadata)
-                        .withCannedAcl(CannedAccessControlList.PublicRead)
-                )
-            }.onSuccess {
-                fileNameList.add(fileName)
-            }.onFailure {
+        runCatching {
+            amazonS3.putObject(
+                PutObjectRequest(s3Properties.bucket, imageUrl, image.inputStream, objectMetadata)
+                    .withCannedAcl(CannedAccessControlList.PublicRead)
+            )
+        }.onFailure {
                 throw IllegalArgumentException("파일 업로드에 실패하였습니다.")
-            }
         }
 
-        return fileNameList.map { s3Properties.url + dirName + it }
-
+        return s3Properties.url + imageUrl
     }
 
     override fun deleteFile(fileName: String) =

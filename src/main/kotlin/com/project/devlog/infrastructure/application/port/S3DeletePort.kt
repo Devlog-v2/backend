@@ -1,4 +1,4 @@
-package com.project.devlog.infrastructure.s3.application.port
+package com.project.devlog.infrastructure.application.port
 
 interface S3DeletePort {
 
