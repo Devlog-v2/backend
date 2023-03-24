@@ -31,6 +31,7 @@ dependencies {
 	// database
 	implementation("mysql:mysql-connector-java")
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+	implementation("org.mariadb.jdbc:mariadb-java-client:3.1.2")
 
 	// query dsl
 	implementation("com.querydsl:querydsl-jpa:5.0.0")
