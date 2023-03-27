@@ -5,8 +5,10 @@ import com.project.devlog.domain.account.adapter.presentation.data.response.Prof
 import com.project.devlog.domain.account.application.usecase.*
 import com.project.devlog.domain.post.adapter.presentation.data.response.PostCalendarResponse
 import com.project.devlog.domain.post.adapter.presentation.data.response.PostListResponse
+import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.time.LocalDate
 import java.util.*
 
 @RestController
@@ -18,6 +20,7 @@ class AccountWebAdapter(
     private val queryAccountPostUseCase: QueryAccountPostUseCase,
     private val queryAccountPostSearchUseCase: QueryAccountPostSearchUseCase,
     private val accountCalendarUseCase: AccountCalendarUseCase,
+    private val queryPostDateUseCase: QueryPostDateUseCase
 ) {
 
     @GetMapping
@@ -48,6 +51,13 @@ class AccountWebAdapter(
         queryAccountPostSearchUseCase.execute(accountIdx, title)
             .let { ResponseEntity.ok(it) }
 
+    @GetMapping("/post")
+    fun findPostByDate(
+        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") date: LocalDate,
+        @RequestParam accountIdx: UUID
+    ): ResponseEntity<List<PostListResponse>> =
+        queryPostDateUseCase.execute(date, accountIdx)
+            .let { ResponseEntity.ok(it) }
 
     @GetMapping("calendar")
     fun calendarByPostCount(): ResponseEntity<List<PostCalendarResponse>> =

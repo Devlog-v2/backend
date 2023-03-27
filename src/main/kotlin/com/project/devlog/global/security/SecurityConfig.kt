@@ -45,6 +45,7 @@ class SecurityConfig(
             .mvcMatchers(HttpMethod.PATCH, "/api/v2/account").hasAnyAuthority(Authority.ROLE_ACCOUNT.name, Authority.ROLE_ADMIN.name)
             .mvcMatchers(HttpMethod.GET, "/api/v2/account/post/{accountIdx}").hasAnyAuthority(Authority.ROLE_ACCOUNT.name, Authority.ROLE_ADMIN.name)
             .mvcMatchers(HttpMethod.GET, "/api/v2/account/post/search/{accountIdx}").hasAnyAuthority(Authority.ROLE_ACCOUNT.name, Authority.ROLE_ADMIN.name)
+            .mvcMatchers(HttpMethod.GET, "/api/v2/account/post").hasAnyAuthority(Authority.ROLE_ACCOUNT.name, Authority.ROLE_ADMIN.name)
             .mvcMatchers(HttpMethod.GET, "/api/v2/account/calendar").hasAnyAuthority(Authority.ROLE_ACCOUNT.name, Authority.ROLE_ADMIN.name)
 
             // /post
