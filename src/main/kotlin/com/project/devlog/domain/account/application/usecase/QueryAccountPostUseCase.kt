@@ -25,7 +25,7 @@ class QueryAccountPostUseCase(
                 idx = it.idx,
                 title = it.title,
                 content = it.content,
-                writer = WriterResponse(account.idx, account.name, false),
+                writer = WriterResponse(account.idx, account.name, false, account.profileUrl),
                 likeCount = queryLikePort.queryCountByPostIdx(it.idx),
                 createdDate = it.createdDate
             )

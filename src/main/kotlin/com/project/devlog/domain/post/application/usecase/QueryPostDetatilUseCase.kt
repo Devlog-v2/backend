@@ -2,10 +2,10 @@ package com.project.devlog.domain.post.application.usecase
 
 import com.project.devlog.domain.account.application.port.AccountSecurityPort
 import com.project.devlog.domain.account.application.port.QueryAccountPort
+import com.project.devlog.domain.comment.adapter.presentation.data.response.CommentResponse
 import com.project.devlog.domain.comment.application.port.QueryCommentPort
 import com.project.devlog.domain.like.adapter.presentation.data.response.LikeResponse
 import com.project.devlog.domain.like.application.port.QueryLikePort
-import com.project.devlog.domain.comment.adapter.presentation.data.response.CommentResponse
 import com.project.devlog.domain.post.adapter.presentation.data.response.PostDetailResponse
 import com.project.devlog.domain.post.adapter.presentation.data.response.WriterResponse
 import com.project.devlog.domain.post.application.port.QueryPostPort
@@ -54,7 +54,8 @@ class QueryPostDetatilUseCase(
                 WriterResponse(
                     it.idx,
                     it.name,
-                    it.idx == accountSecurityPort.getCurrentAccountIdx()
+                    it.idx == accountSecurityPort.getCurrentAccountIdx(),
+                    it.profileUrl
                 )
             }
 

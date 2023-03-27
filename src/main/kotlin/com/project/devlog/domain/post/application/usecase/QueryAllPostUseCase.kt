@@ -32,6 +32,6 @@ class QueryAllPostUseCase(
     private fun findAccountByIdx(accountIdx: UUID): WriterResponse =
         queryAccountPort.queryAccountByIdx(accountIdx)
             .let { it ?: throw AccountNotFoundException() }
-            .let { WriterResponse(it.idx, it.name, false) }
+            .let { WriterResponse(it.idx, it.name, false, it.profileUrl) }
 
 }
