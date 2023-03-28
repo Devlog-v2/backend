@@ -9,5 +9,6 @@ data class ProfileDetailResponse(
     val profileUrl: String?,
     val company: String?,
     val githubUrl: String?,
-    val readme: String?
+    val readme: String?,
+    val isMine: Boolean
 )

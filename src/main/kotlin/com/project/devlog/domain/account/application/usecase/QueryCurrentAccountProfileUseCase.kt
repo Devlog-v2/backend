@@ -24,7 +24,8 @@ class QueryCurrentAccountProfileUseCase(
                         profileUrl = it.profileUrl,
                         company = it.company,
                         githubUrl = it.githubUrl,
-                        readme = it.readme
+                        readme = it.readme,
+                        isMine = true
                     )
                 }
             }
