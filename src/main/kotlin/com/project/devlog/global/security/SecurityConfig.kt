@@ -46,7 +46,7 @@ class SecurityConfig(
             .mvcMatchers(HttpMethod.GET, "/api/v2/account/post/{accountIdx}").permitAll()
             .mvcMatchers(HttpMethod.GET, "/api/v2/account/post/search/{accountIdx}").permitAll()
             .mvcMatchers(HttpMethod.GET, "/api/v2/account/post").permitAll()
-            .mvcMatchers(HttpMethod.GET, "/api/v2/account/calendar").permitAll()
+            .mvcMatchers(HttpMethod.GET, "/api/v2/account/calendar/{accountIdx}").permitAll()
 
             // /post
             .mvcMatchers(HttpMethod.POST, "/api/v2/post").hasAnyAuthority(Authority.ROLE_ACCOUNT.name, Authority.ROLE_ADMIN.name)

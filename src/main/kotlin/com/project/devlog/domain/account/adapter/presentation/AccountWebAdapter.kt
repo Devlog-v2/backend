@@ -59,8 +59,8 @@ class AccountWebAdapter(
         queryPostDateUseCase.execute(date, accountIdx)
             .let { ResponseEntity.ok(it) }
 
-    @GetMapping("calendar")
-    fun calendarByPostCount(accountIdx: UUID): ResponseEntity<List<PostCalendarResponse>> =
+    @GetMapping("calendar/{accountIdx}")
+    fun calendarByPostCount(@PathVariable accountIdx: UUID): ResponseEntity<List<PostCalendarResponse>> =
         accountCalendarUseCase.execute(accountIdx)
             .let { ResponseEntity.ok(it) }
 
