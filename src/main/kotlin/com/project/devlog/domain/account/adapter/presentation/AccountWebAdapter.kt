@@ -60,8 +60,8 @@ class AccountWebAdapter(
             .let { ResponseEntity.ok(it) }
 
     @GetMapping("calendar")
-    fun calendarByPostCount(): ResponseEntity<List<PostCalendarResponse>> =
-        accountCalendarUseCase.execute()
+    fun calendarByPostCount(accountIdx: UUID): ResponseEntity<List<PostCalendarResponse>> =
+        accountCalendarUseCase.execute(accountIdx)
             .let { ResponseEntity.ok(it) }
 
 }
