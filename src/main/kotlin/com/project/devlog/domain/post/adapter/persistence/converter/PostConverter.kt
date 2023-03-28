@@ -21,6 +21,7 @@ class PostConverter(
                 content = it.content,
                 account = account,
                 tag = it.tag,
+                thumbnailUrl = it.thumbnailUrl
             )
         }
     }
@@ -33,6 +34,7 @@ class PostConverter(
                 content = it.content,
                 accountIdx = it.account.idx,
                 tag = it.tag,
+                thumbnailUrl = it.thumbnailUrl,
                 createdDate = it.createdAt
             )
         }

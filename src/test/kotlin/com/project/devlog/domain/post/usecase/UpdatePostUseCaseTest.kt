@@ -45,6 +45,7 @@ class UpdatePostUseCaseTest: BehaviorSpec({
     val title = "update test title"
     val content = "update test content"
     val tag = mutableListOf("test tag1", "test tag2")
+    val thumbnailUrl = "test thumbnailUrl"
     val createdAt = LocalDate.now()
 
     Given("account, postIdx, updatePostRequest, file이 주어졌을때") {
@@ -72,8 +73,8 @@ class UpdatePostUseCaseTest: BehaviorSpec({
         val authentication = jwtParserPort.authentication(token.accessToken)
         SecurityContextHolder.getContext().authentication = authentication
 
-        val updatePostRequest = UpdatePostRequest(title, content, tag)
-        val postDomain = Post(postIdx, title, content, accountIdx, tag, createdAt)
+        val updatePostRequest = UpdatePostRequest(title, content, tag, thumbnailUrl)
+        val postDomain = Post(postIdx, title, content, accountIdx, tag, thumbnailUrl, createdAt)
 
         every { queryPostPort.queryPostById(postIdx) } returns postDomain
         every { commandPostPort.savePost(any()) } returns postDomain

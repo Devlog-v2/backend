@@ -28,4 +28,7 @@ class PostEntity(
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "post_tag", joinColumns = [JoinColumn(name = "post_idx")])
     var tag: List<String>,
+
+    @Column(nullable = false, columnDefinition = "TEXT")
+    val thumbnailUrl: String?
 ): BaseDateEntity()

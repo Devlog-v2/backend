@@ -9,5 +9,6 @@ data class PostListResponse(
     val content: String,
     val writer: WriterResponse,
     val likeCount: Int,
+    val thumbnailUrl: String?,
     val createdDate: LocalDate
 )

@@ -25,7 +25,8 @@ class QueryPostSearchUseCase(
                     content = it.content,
                     writer = findAccountByIdx(it.accountIdx),
                     likeCount = queryLikePort.queryCountByPostIdx(it.idx),
-                    createdDate = it.createdDate
+                    thumbnailUrl = it.thumbnailUrl,
+                    createdDate = it.createdDate,
                 )
             }
 

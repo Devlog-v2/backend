@@ -28,7 +28,8 @@ class QueryPostDateUseCase(
                     content = it.content,
                     writer = WriterResponse(account.idx, account.name, false, account.profileUrl),
                     likeCount = queryLikePort.queryCountByPostIdx(it.idx),
-                    createdDate = it.createdDate
+                    createdDate = it.createdDate,
+                    thumbnailUrl = it.thumbnailUrl
                 )
             }
     }

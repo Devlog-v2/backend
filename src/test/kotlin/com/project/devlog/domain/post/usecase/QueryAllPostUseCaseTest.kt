@@ -31,10 +31,11 @@ class QueryAllPostUseCaseTest: BehaviorSpec({
     val title = "test title"
     val content = "test content"
     val tag = mutableListOf("test tag1", "test tag2")
+    val thumbnailUrl = "test thumbnailUrl"
     val createdAt = LocalDate.now()
 
     Given("") {
-        val postDomain = Post(postIdx, title, content, accountIdx, tag, createdAt)
+        val postDomain = Post(postIdx, title, content, accountIdx, tag, thumbnailUrl, createdAt)
         val account = Account(accountIdx, email, password, name, null, null, null, null, Authority.ROLE_ACCOUNT)
 
         every { queryPostPort.queryAllPost() } returns listOf(postDomain)

@@ -22,6 +22,7 @@ class SavePostUseCase(
                 content = it.content,
                 accountIdx = accountSecurityPort.getCurrentAccountIdx()!!,
                 tag = it.tag,
+                thumbnailUrl = it.thumbnailUrl,
                 createdDate = LocalDate.now()
             )
         }

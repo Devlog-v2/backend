@@ -43,6 +43,7 @@ class QueryPostDetatilUseCase(
                 },
             like = LikeResponse(isLiked, queryLikePort.queryCountByPostIdx(post.idx)),
             tag = post.tag,
+            thumbnailUrl = post.thumbnailUrl,
             createdDate = post.createdDate
         )
     }

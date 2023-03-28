@@ -44,6 +44,7 @@ class SavePostUseCaseTest: BehaviorSpec({
     val title = "test title"
     val content = "test content"
     val tag = mutableListOf("test tag1", "test tag2")
+    val thumbnailUrl = "test thumbnailUrl"
     val createdAt = LocalDate.now()
 
     Given("account, writePostRequest, file이 주어졌을때") {
@@ -69,8 +70,8 @@ class SavePostUseCaseTest: BehaviorSpec({
         val authentication = jwtParserPort.authentication(token.accessToken)
         SecurityContextHolder.getContext().authentication = authentication
 
-        val postRequest = WritePostRequest(title, content, tag)
-        val post = Post(postIdx, title, content, accountIdx, tag, createdAt)
+        val postRequest = WritePostRequest(title, content, tag, thumbnailUrl)
+        val post = Post(postIdx, title, content, accountIdx, tag, thumbnailUrl, createdAt)
 
         every { accountSecurityPort.getCurrentAccountIdx() } returns accountIdx
         every { commandPostPort.savePost(any()) } returns post
