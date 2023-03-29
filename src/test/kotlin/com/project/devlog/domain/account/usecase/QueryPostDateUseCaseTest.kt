@@ -3,7 +3,7 @@ package com.project.devlog.domain.account.usecase
 import com.project.devlog.domain.account.Account
 import com.project.devlog.domain.account.adapter.presentation.data.enumType.Authority
 import com.project.devlog.domain.account.application.port.QueryAccountPort
-import com.project.devlog.domain.account.application.usecase.QueryAccountPostUseCase
+import com.project.devlog.domain.account.application.usecase.QueryPostDateUseCase
 import com.project.devlog.domain.account.exception.AccountNotFoundException
 import com.project.devlog.domain.like.application.port.QueryLikePort
 import com.project.devlog.domain.post.Post
@@ -16,13 +16,13 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import java.time.LocalDate
-import java.util.*
+import java.util.UUID
 
-class QueryAccountPostUseCaseTest: BehaviorSpec({
-    val queryAccountPort = mockk<QueryAccountPort>()
+class QueryPostDateUseCaseTest: BehaviorSpec({
     val queryPostPort = mockk<QueryPostPort>()
+    val queryAccountPort = mockk<QueryAccountPort>()
     val queryLikePort = mockk<QueryLikePort>()
-    val queryAccountPostUseCase = QueryAccountPostUseCase(queryAccountPort, queryPostPort, queryLikePort)
+    val queryPostDateUseCase = QueryPostDateUseCase(queryPostPort, queryAccountPort, queryLikePort)
 
     // account
     val email = "test@test.com"
@@ -31,14 +31,15 @@ class QueryAccountPostUseCaseTest: BehaviorSpec({
 
     // post
     val postIdx = UUID.randomUUID()
+    val title = "test title"
     val content = "test content"
     val tag = mutableListOf("test tag1", "test tag2")
     val thumbnailUrl = "test thumbnailUrl"
     val createdAt = LocalDate.now()
 
-    Given("accountIdx이 주어질때") {
+    Given("date와 accountIdx가 주어질때") {
+        val date = LocalDate.now()
         val accountIdx = UUID.randomUUID()
-        val title = "test title"
 
         val accountDomain = Account(accountIdx, email, password, name, null, null, null, null, Authority.ROLE_ACCOUNT)
         val postDomain = Post(postIdx, title, content, accountIdx, tag, thumbnailUrl, createdAt)
@@ -55,13 +56,13 @@ class QueryAccountPostUseCaseTest: BehaviorSpec({
         })
 
         every { queryAccountPort.queryAccountByIdx(accountIdx) } returns accountDomain
-        every { queryPostPort.queryAllPostByAccountIdx(accountIdx) } returns mutableListOf(postDomain)
-        every { queryLikePort.queryCountByPostIdx(postDomain.idx) } returns 1
+        every { queryLikePort.queryCountByPostIdx(postIdx) } returns 1
+        every { queryPostPort.queryPostByDateAndAccountIdx(date, accountIdx) } returns mutableListOf(postDomain)
 
-        When("계정 게시글을 요청 하면") {
-            val result = queryAccountPostUseCase.execute(accountIdx)
+        When("특정 날짜에 쓰여진 게시글 리스트를 요청하면") {
+            val result = queryPostDateUseCase.execute(date, accountIdx)
 
-            Then("result와 postListResponse가 같아야 한다.") {
+            Then("result와 postListResponse는 같아야 한다.") {
                 result shouldBe postListResponse
             }
         }
@@ -71,7 +72,7 @@ class QueryAccountPostUseCaseTest: BehaviorSpec({
 
             Then("AccountNotFoundException이 터져야 한다.") {
                 shouldThrow<AccountNotFoundException> {
-                    queryAccountPostUseCase.execute(accountIdx)
+                    queryPostDateUseCase.execute(date, accountIdx)
                 }
             }
         }
