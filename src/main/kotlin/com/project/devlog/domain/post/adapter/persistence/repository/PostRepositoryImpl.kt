@@ -14,8 +14,8 @@ class PostRepositoryImpl(
     private val queryFactory: JPAQueryFactory
 ): PostRepositoryCustom {
 
-    override fun countByOneYearAgo(accountIdx: UUID): List<PostCalendarResponse> {
-        return queryFactory.from(postEntity)
+    override fun countByOneYearAgo(accountIdx: UUID): List<PostCalendarResponse> =
+        queryFactory.from(postEntity)
             .select(
                 Projections.constructor(
                     PostCalendarResponse::class.java,
@@ -31,6 +31,5 @@ class PostRepositoryImpl(
             .groupBy(postEntity.createdAt)
             .orderBy(postEntity.createdAt.desc())
             .fetch()
-    }
 
 }
