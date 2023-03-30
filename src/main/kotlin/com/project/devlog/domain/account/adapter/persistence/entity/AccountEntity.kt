@@ -24,10 +24,15 @@ class AccountEntity(
     val name: String,
 
     @Column(nullable = true, columnDefinition = "TEXT")
-    var githubUrl: String?,
+    var profileUrl: String?,
 
     @Column(nullable = true, columnDefinition = "TEXT")
-    var profileUrl: String?,
+    var githubUrl: String?,
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @Column(nullable = true, columnDefinition = "TEXT")
+    @CollectionTable(name = "post_tag", joinColumns = [JoinColumn(name = "post_idx")])
+    var service: MutableList<String>?,
 
     @Column(nullable = true, length = 20)
     var company: String?,

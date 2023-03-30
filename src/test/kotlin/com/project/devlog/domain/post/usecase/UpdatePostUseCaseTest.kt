@@ -46,12 +46,12 @@ class UpdatePostUseCaseTest: BehaviorSpec({
     val content = "update test content"
     val tag = mutableListOf("test tag1", "test tag2")
     val thumbnailUrl = "test thumbnailUrl"
-    val createdAt = LocalDate.now()
+    val createdAt = LocalDateTime.now()
 
     Given("account, postIdx, updatePostRequest, file이 주어졌을때") {
         val postIdx = UUID.randomUUID()
 
-        val accountEntity = AccountEntity(accountIdx, email, password, name, null, null, null, null, Authority.ROLE_ACCOUNT)
+        val accountEntity = AccountEntity(accountIdx, email, password, name, null, null, null, null, null, Authority.ROLE_ACCOUNT)
         every { accountRepository.save(accountEntity) } returns accountEntity
         accountRepository.save(accountEntity)
 

@@ -28,7 +28,7 @@ class AccountCalendarUseCaseTest: BehaviorSpec({
     Given("accountIdx가 주어질때") {
         val accountIdx = UUID.randomUUID()
 
-        val accountDomain = Account(accountIdx, email, password, name, null, null, null, null, Authority.ROLE_ACCOUNT)
+        val accountDomain = Account(accountIdx, email, password, name, null, null, null, null, null, Authority.ROLE_ACCOUNT)
         val postCalendarResponse = mutableListOf(PostCalendarResponse(1, LocalDate.now()))
 
         every { queryAccountPort.queryAccountByIdx(accountIdx) } returns accountDomain

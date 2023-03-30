@@ -10,6 +10,7 @@ data class Account(
     var name: String,
     var githubUrl: String?,
     var profileUrl: String?,
+    var service: MutableList<String>?,
     var company: String?,
     var readme: String?,
     val authority: Authority

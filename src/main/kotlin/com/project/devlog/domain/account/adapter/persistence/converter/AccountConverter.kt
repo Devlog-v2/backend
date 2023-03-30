@@ -17,6 +17,7 @@ class AccountConverter {
                 name = it.name,
                 githubUrl = it.githubUrl,
                 profileUrl = it.profileUrl,
+                service = it.service,
                 company = it.company,
                 readme = it.readme,
                 authority = Authority.ROLE_ACCOUNT
@@ -32,6 +33,7 @@ class AccountConverter {
                 name = it.name,
                 githubUrl = it.githubUrl,
                 profileUrl = it.profileUrl,
+                service = it.service,
                 company = it.company,
                 readme = it.readme,
                 authority = entity.authority

@@ -9,6 +9,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 
 class DeletePostUseCaseTest: BehaviorSpec({
@@ -24,7 +25,7 @@ class DeletePostUseCaseTest: BehaviorSpec({
     val content = "test content"
     val tag = mutableListOf("test tag1", "test tag2")
     val thumbnailUrl = "test thumbnailUrl"
-    val createdAt = LocalDate.now()
+    val createdAt = LocalDateTime.now()
 
     Given("postIdx가 주어졌을때") {
         val postIdx = UUID.randomUUID()

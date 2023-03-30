@@ -15,17 +15,18 @@ class UpdateProfileUseCase(
     private val accountSecurityPort: AccountSecurityPort
 ) {
 
-    fun execute(reqeust: UpdateProfileRequest): UUID =
+    fun execute(request: UpdateProfileRequest): UUID =
         queryAccountPort.queryAccountByIdx(accountSecurityPort.getCurrentAccountIdx()!!)
             .let { it ?: throw AccountNotFoundException() }
             .let {
                 commandAccountPort.saveAccount(
                     it.copy(
-                        name = reqeust.name,
-                        profileUrl = reqeust.profileUrl,
-                        company = reqeust.company,
-                        githubUrl = reqeust.githubUrl,
-                        readme = reqeust.readme
+                        name = request.name,
+                        profileUrl = request.profileUrl,
+                        githubUrl = request.githubUrl,
+                        service = request.service,
+                        company = request.company,
+                        readme = request.readme
                     )
                 ).idx
             }

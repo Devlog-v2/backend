@@ -8,6 +8,7 @@ data class ProfileDetailResponse(
     val name: String,
     val profileUrl: String?,
     val githubUrl: String?,
+    val service: MutableList<String>?,
     val company: String?,
     val readme: String?,
     val isMine: Boolean

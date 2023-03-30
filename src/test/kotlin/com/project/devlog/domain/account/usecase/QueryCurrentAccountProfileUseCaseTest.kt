@@ -40,7 +40,7 @@ class QueryCurrentAccountProfileUseCaseTest: BehaviorSpec({
     val name = "test name"
 
     Given("계정이 주어질때") {
-        val accountEntity = AccountEntity(accountIdx, email, password, name, null, null, null, null, Authority.ROLE_ACCOUNT)
+        val accountEntity = AccountEntity(accountIdx, email, password, name, null, null, null, null, null, Authority.ROLE_ACCOUNT)
         every { accountRepository.save(accountEntity) } returns accountEntity
         accountRepository.save(accountEntity)
 
@@ -62,7 +62,7 @@ class QueryCurrentAccountProfileUseCaseTest: BehaviorSpec({
         val authentication = jwtParserPort.authentication(token.accessToken)
         SecurityContextHolder.getContext().authentication = authentication
 
-        val account = Account(accountIdx, email, password, name, null, null, null, null, Authority.ROLE_ACCOUNT)
+        val account = Account(accountIdx, email, password, name, null, null, null, null, null, Authority.ROLE_ACCOUNT)
 
         every { accountSecurityPort.getCurrentAccountIdx() } returns accountIdx
         every { queryAccountPort.queryAccountByIdx(account.idx) } returns account
@@ -73,8 +73,9 @@ class QueryCurrentAccountProfileUseCaseTest: BehaviorSpec({
                 email = it.email,
                 name = it.name,
                 profileUrl = it.profileUrl,
-                company = it.company,
                 githubUrl = it.githubUrl,
+                service = it.service,
+                company = it.company,
                 readme = it.readme,
                 isMine = true
             )

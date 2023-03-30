@@ -23,7 +23,7 @@ class SignUpUseCaseTest: BehaviorSpec({
     val signUpUseCase = SignUpUseCase(commandAccountPort, queryAccountPort, passwordEncodePort)
 
     // account
-    val idx = UUID.randomUUID()
+    val accountIdx = UUID.randomUUID()
     val email = "test@test.com"
     val password = "test password"
     val encodedPassword = "encoded test password"
@@ -32,11 +32,11 @@ class SignUpUseCaseTest: BehaviorSpec({
     Given("SignUpRequest가 주어 졌을때") {
         val request = SignUpRequest(email, password, name)
         val duplicateEmailRequest = SignUpRequest(email, password, name)
-        val saveAccount = Account(idx, email, encodedPassword, name, null, null, null, null, Authority.ROLE_ACCOUNT)
+        val accountDomain = Account(accountIdx, email, password, name, null, null, null, null, null, Authority.ROLE_ACCOUNT)
 
         every { queryAccountPort.existsAccountByEmail(request.email) } returns false
         every { passwordEncodePort.passwordEncode(request.password) } returns encodedPassword
-        every { commandAccountPort.saveAccount(any()) } returns saveAccount
+        every { commandAccountPort.saveAccount(any()) } returns accountDomain
 
         When("회원가입 요청을 하면") {
 

@@ -12,6 +12,7 @@ import io.kotest.matchers.shouldNotBe
 import io.mockk.every
 import io.mockk.mockk
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 
 class QueryAllPostUseCaseTest: BehaviorSpec({
@@ -32,11 +33,11 @@ class QueryAllPostUseCaseTest: BehaviorSpec({
     val content = "test content"
     val tag = mutableListOf("test tag1", "test tag2")
     val thumbnailUrl = "test thumbnailUrl"
-    val createdAt = LocalDate.now()
+    val createdAt = LocalDateTime.now()
 
     Given("") {
         val postDomain = Post(postIdx, title, content, accountIdx, tag, thumbnailUrl, createdAt)
-        val account = Account(accountIdx, email, password, name, null, null, null, null, Authority.ROLE_ACCOUNT)
+        val account = Account(accountIdx, email, password, name, null, null, null, null, null, Authority.ROLE_ACCOUNT)
 
         every { queryPostPort.queryAllPost() } returns listOf(postDomain)
         every { queryAccountPort.queryAccountByIdx(postDomain.accountIdx) } returns account

@@ -1,27 +1,16 @@
 package com.project.devlog.domain.like.usecase
 
-import com.project.devlog.domain.account.adapter.persistence.entity.AccountEntity
-import com.project.devlog.domain.account.adapter.persistence.repository.AccountRepository
-import com.project.devlog.domain.account.adapter.presentation.data.enumType.Authority
-import com.project.devlog.domain.account.adapter.presentation.data.response.SignInResponse
 import com.project.devlog.domain.account.application.port.AccountSecurityPort
-import com.project.devlog.domain.account.application.port.GenerateJwtPort
-import com.project.devlog.domain.account.application.port.JwtParserPort
 import com.project.devlog.domain.like.Like
 import com.project.devlog.domain.like.application.port.CommandLikePort
 import com.project.devlog.domain.like.application.port.QueryLikePort
 import com.project.devlog.domain.like.application.usecase.DeleteLikeUseCase
 import com.project.devlog.domain.like.exception.LikeNotFoundException
-import com.project.devlog.global.security.principal.AccountDetails
-import com.project.devlog.global.security.principal.AccountDetailsService
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.context.SecurityContextHolder
-import java.time.LocalDateTime
 import java.util.*
 
 class DeleteLikeUseCaseTest: BehaviorSpec({
@@ -29,45 +18,14 @@ class DeleteLikeUseCaseTest: BehaviorSpec({
     val queryLikePort = mockk<QueryLikePort>()
     val accountSecurityPort = mockk<AccountSecurityPort>()
     val deleteLikeUseCase = DeleteLikeUseCase(commandLikePort, queryLikePort, accountSecurityPort)
-    val accountRepository = mockk<AccountRepository>(relaxed = true)
-    val generateJwtPort = mockk<GenerateJwtPort>()
-    val jwtParserPort = mockk<JwtParserPort>()
-    val accountDetailsService = mockk<AccountDetailsService>()
-
-    // account
-    val accountIdx = UUID.randomUUID()
-    val email = "test@test.com"
-    val password = "test password"
-    val name = "test name"
 
     // like
     val likeIdx = 1L
     val isLiked = false
 
     Given("account와 postIdx가 주어졌을때") {
+        val accountIdx = UUID.randomUUID()
         val postIdx = UUID.randomUUID()
-
-        val accountEntity = AccountEntity(accountIdx, email, password, name, null, null, null, null, Authority.ROLE_ACCOUNT)
-        every { accountRepository.save(accountEntity) } returns accountEntity
-        accountRepository.save(accountEntity)
-
-        val signInResponse = SignInResponse(
-            accessToken = "sdfsfs",
-            refreshToken = "safsdf",
-            accessTokenExpiredAt = LocalDateTime.now()
-        )
-
-        every { generateJwtPort.generate(accountIdx, Authority.ROLE_ACCOUNT) } returns signInResponse
-        val token = generateJwtPort.generate(accountEntity.idx, Authority.ROLE_ACCOUNT)
-
-        val accountDetails = AccountDetails(accountIdx)
-        every { accountDetailsService.loadUserByUsername(accountIdx.toString()) } returns accountDetails
-        val userDetails = accountDetailsService.loadUserByUsername(accountIdx.toString())
-        val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userDetails, "", userDetails.authorities)
-
-        every { jwtParserPort.authentication(token.accessToken) } returns usernamePasswordAuthenticationToken
-        val authentication = jwtParserPort.authentication(token.accessToken)
-        SecurityContextHolder.getContext().authentication = authentication
 
         val likeDomain = Like(likeIdx, isLiked, accountIdx, postIdx)
 

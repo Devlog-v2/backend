@@ -5,7 +5,7 @@ import com.project.devlog.domain.post.Post
 import com.project.devlog.domain.post.adapter.presentation.data.request.WritePostRequest
 import com.project.devlog.domain.post.application.port.CommandPostPort
 import com.project.devlog.global.annotation.UseCase
-import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 
 @UseCase
@@ -23,7 +23,7 @@ class SavePostUseCase(
                 accountIdx = accountSecurityPort.getCurrentAccountIdx()!!,
                 tag = it.tag,
                 thumbnailUrl = it.thumbnailUrl,
-                createdDate = LocalDate.now().atStartOfDay()
+                createdDate = LocalDateTime.now()
             )
         }
         return commandPostPort.savePost(post).idx

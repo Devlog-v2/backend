@@ -26,14 +26,14 @@ class SignInUseCaseTest: BehaviorSpec({
     val signInUseCase = SignInUseCase(accountPort, generateJwtPort, passwordEncodePort)
 
     // account
-    val idx = UUID.randomUUID()
+    val accountIdx = UUID.randomUUID()
     val email = "test@test.com"
     val password = "test password"
     val name = "test name"
 
     Given("SignInRequest가 주어졌을때") {
         val request = SignInRequest(email, password)
-        val account = Account(idx, email, password, name, null, null, null, null, Authority.ROLE_ACCOUNT)
+        val accountDomain = Account(accountIdx, email, password, name, null, null, null, null, null, Authority.ROLE_ACCOUNT)
         val signInResponse = SignInResponse(
             accessToken = "sdfsfs",
             refreshToken = "safsdf",
@@ -41,14 +41,14 @@ class SignInUseCaseTest: BehaviorSpec({
         )
 
         When("로그인 요청을 하면") {
-            every { accountPort.queryAccountByEmail(request.email) } returns account
-            every { passwordEncodePort.isPasswordMatch(password, account.encodedPassword) } returns true
-            every { generateJwtPort.generate(account.idx, Authority.ROLE_ACCOUNT) } returns signInResponse
+            every { accountPort.queryAccountByEmail(request.email) } returns accountDomain
+            every { passwordEncodePort.isPasswordMatch(password, accountDomain.encodedPassword) } returns true
+            every { generateJwtPort.generate(accountDomain.idx, Authority.ROLE_ACCOUNT) } returns signInResponse
 
             val result = signInUseCase.execute(request)
 
             Then("토큰이 발급이 되어야 한다.") {
-                verify(exactly = 1) { generateJwtPort.generate(account.idx, Authority.ROLE_ACCOUNT) }
+                verify(exactly = 1) { generateJwtPort.generate(accountDomain.idx, Authority.ROLE_ACCOUNT) }
             }
 
             Then("결과값이 signInResponse와 같아야 한다.") {
@@ -57,7 +57,7 @@ class SignInUseCaseTest: BehaviorSpec({
         }
 
         When("비밀번호가 틀리게 요청을 했을때") {
-            every { passwordEncodePort.isPasswordMatch(password, account.encodedPassword) } returns false
+            every { passwordEncodePort.isPasswordMatch(password, accountDomain.encodedPassword) } returns false
 
             Then("PasswordNotCorrectException이 터져야 한다.") {
                 shouldThrow<PasswordNotCorrectException> {

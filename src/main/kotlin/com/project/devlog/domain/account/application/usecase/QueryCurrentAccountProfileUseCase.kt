@@ -22,8 +22,9 @@ class QueryCurrentAccountProfileUseCase(
                         email = it.email,
                         name = it.name,
                         profileUrl = it.profileUrl,
-                        company = it.company,
                         githubUrl = it.githubUrl,
+                        service = it.service,
+                        company = it.company,
                         readme = it.readme,
                         isMine = true
                     )

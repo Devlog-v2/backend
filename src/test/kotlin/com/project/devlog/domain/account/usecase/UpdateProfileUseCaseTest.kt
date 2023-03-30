@@ -38,13 +38,14 @@ class UpdateProfileUseCaseTest: BehaviorSpec({
     val password = "test password"
     val name = "test name"
     val profileUrl = "test profileUrl"
-    val company = "test company"
     val githubUrl = "test githubUrl"
+    val service = mutableListOf("test service")
+    val company = "test company"
     val readme = "test readme"
 
     Given("계정과 updateProfileRequest이 주어질때") {
         val accountEntity =
-            AccountEntity(accountIdx, email, password, name, null, null, null, null, Authority.ROLE_ACCOUNT)
+            AccountEntity(accountIdx, email, password, name, null, null, null, null, null, Authority.ROLE_ACCOUNT)
         every { accountRepository.save(accountEntity) } returns accountEntity
         accountRepository.save(accountEntity)
 
@@ -67,8 +68,8 @@ class UpdateProfileUseCaseTest: BehaviorSpec({
         val authentication = jwtParserPort.authentication(token.accessToken)
         SecurityContextHolder.getContext().authentication = authentication
 
-        val accountDomain = Account(accountIdx, email, password, name, null, null, null, null, Authority.ROLE_ACCOUNT)
-        val updateProfileReqeust = UpdateProfileRequest(name, profileUrl, company, githubUrl, readme)
+        val accountDomain = Account(accountIdx, email, password, name, null, null, null, null, null, Authority.ROLE_ACCOUNT)
+        val updateProfileReqeust = UpdateProfileRequest(name, profileUrl, githubUrl, service, company, readme)
 
         every { accountSecurityPort.getCurrentAccountIdx() } returns accountIdx
         every { queryAccountPort.queryAccountByIdx(accountIdx) } returns accountDomain

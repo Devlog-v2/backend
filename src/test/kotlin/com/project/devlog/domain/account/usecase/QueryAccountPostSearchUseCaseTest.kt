@@ -15,7 +15,7 @@ import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.UUID
 
 class QueryAccountPostSearchUseCaseTest : BehaviorSpec({
@@ -34,13 +34,13 @@ class QueryAccountPostSearchUseCaseTest : BehaviorSpec({
     val content = "test content"
     val tag = mutableListOf("test tag1", "test tag2")
     val thumbnailUrl = "test thumbnailUrl"
-    val createdAt = LocalDate.now()
+    val createdAt = LocalDateTime.now()
 
     Given("accountIdx와 title이 주어질때") {
         val accountIdx = UUID.randomUUID()
         val title = "test title"
 
-        val accountDomain = Account(accountIdx, email, password, name, null, null, null, null, Authority.ROLE_ACCOUNT)
+        val accountDomain = Account(accountIdx, email, password, name, null, null, null, null, null, Authority.ROLE_ACCOUNT)
         val postDomain = Post(postIdx, title, content, accountIdx, tag, thumbnailUrl, createdAt)
         val postListResponse = mutableListOf(postDomain.let {
             PostListResponse(
@@ -50,7 +50,7 @@ class QueryAccountPostSearchUseCaseTest : BehaviorSpec({
                 writer = WriterResponse(accountDomain.idx, accountDomain.name, false, null),
                 likeCount = 1,
                 thumbnailUrl = it.thumbnailUrl,
-                createdDate = it.createdDate
+                createdDate = it.createdDate.toLocalDate()
             )
         })
 

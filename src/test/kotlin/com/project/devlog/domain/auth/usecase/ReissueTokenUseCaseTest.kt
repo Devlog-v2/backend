@@ -40,7 +40,7 @@ class ReissueTokenUseCaseTest: BehaviorSpec({
 
     Given("RefreshToken이 주어졌을때") {
         val refreshTokenDomain = RefreshToken(parsedRefreshToken, accountIdx, expiredAt)
-        val account = Account(idx, email, password, name, null, null, null, null, Authority.ROLE_ACCOUNT)
+        val account = Account(idx, email, password, name, null, null, null, null, null, Authority.ROLE_ACCOUNT)
         val signInResponse = SignInResponse(
             accessToken = "sdfsfs",
             refreshToken = "safsdf",

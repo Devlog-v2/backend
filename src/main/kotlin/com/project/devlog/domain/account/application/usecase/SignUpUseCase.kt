@@ -31,6 +31,7 @@ class SignUpUseCase(
                 name = it.name,
                 githubUrl = null,
                 profileUrl = null,
+                service = null,
                 company = null,
                 readme = null,
                 authority = Authority.ROLE_ACCOUNT

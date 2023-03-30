@@ -27,15 +27,16 @@ class QueryProfileDetailUseCaseTest: BehaviorSpec({
     Given("accountIdx가 주어질때") {
         val accountIdx = UUID.randomUUID()
 
-        val accountDomain = Account(accountIdx, email, password, name, null, null, null, null, Authority.ROLE_ACCOUNT)
+        val accountDomain = Account(accountIdx, email, password, name, null, null, null, null, null, Authority.ROLE_ACCOUNT)
         val profileDetailResponse = accountDomain.let {
             ProfileDetailResponse(
                 accountIdx = it.idx,
                 email = it.email,
                 name = it.name,
                 profileUrl = it.profileUrl,
-                company = it.company,
                 githubUrl = it.githubUrl,
+                service = it.service,
+                company = it.company,
                 readme = it.readme,
                 isMine = it.idx == accountIdx
             )

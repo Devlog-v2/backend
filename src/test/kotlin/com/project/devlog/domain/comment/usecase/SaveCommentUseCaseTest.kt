@@ -45,7 +45,7 @@ class SaveCommentUseCaseTest: BehaviorSpec({
     Given("account, postIdx, writeCommentRequest가 주어졌을때") {
         val postIdx = UUID.randomUUID()
 
-        val accountEntity = AccountEntity(accountIdx, email, password, name, null, null, null, null, Authority.ROLE_ACCOUNT)
+        val accountEntity = AccountEntity(accountIdx, email, password, name, null, null, null, null, null, Authority.ROLE_ACCOUNT)
         every { accountRepository.save(accountEntity) } returns accountEntity
         accountRepository.save(accountEntity)
 

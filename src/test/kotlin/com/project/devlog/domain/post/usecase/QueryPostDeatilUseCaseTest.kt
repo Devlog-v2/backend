@@ -17,6 +17,7 @@ import io.kotest.matchers.shouldNotBe
 import io.mockk.every
 import io.mockk.mockk
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 
 class QueryPostDeatilUseCaseTest: BehaviorSpec({
@@ -38,7 +39,7 @@ class QueryPostDeatilUseCaseTest: BehaviorSpec({
     val content = "test content"
     val tag = mutableListOf("test tag1", "test tag2")
     val thumbnailUrl = "test thumbnailUrl"
-    val createdAt = LocalDate.now()
+    val createdAt = LocalDateTime.now()
 
     // comment
     val commentIdx = UUID.randomUUID()
@@ -48,7 +49,7 @@ class QueryPostDeatilUseCaseTest: BehaviorSpec({
         val postIdx = UUID.randomUUID()
         val postDomain = Post(postIdx, title, content, accountIdx, tag, thumbnailUrl, createdAt)
         val commentDomain = Comment(commentIdx, comment, accountIdx, postIdx)
-        val account = Account(accountIdx, email, password, name, null, null, null, null, Authority.ROLE_ACCOUNT)
+        val account = Account(accountIdx, email, password, name, null, null, null,  null, null, Authority.ROLE_ACCOUNT)
 
         every { accountSecurityPort.getCurrentAccountIdx() } returns null
         every { queryPostPort.queryPostById(postDomain.idx) } returns postDomain
