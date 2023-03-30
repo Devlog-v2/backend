@@ -7,8 +7,8 @@ data class ProfileDetailResponse(
     val email: String,
     val name: String,
     val profileUrl: String?,
-    val company: String?,
     val githubUrl: String?,
+    val company: String?,
     val readme: String?,
     val isMine: Boolean
 )

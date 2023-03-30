@@ -1,7 +1,7 @@
 package com.project.devlog.domain.post.adapter.persistence.entity
 
 import com.project.devlog.domain.account.adapter.persistence.entity.AccountEntity
-import com.project.devlog.global.entity.BaseDateEntity
+import com.project.devlog.global.entity.BaseTimeEntity
 import org.hibernate.annotations.GenericGenerator
 import java.util.*
 import javax.persistence.*
@@ -31,4 +31,4 @@ class PostEntity(
 
     @Column(nullable = false, columnDefinition = "TEXT")
     val thumbnailUrl: String?
-): BaseDateEntity()
+): BaseTimeEntity()

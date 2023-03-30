@@ -23,7 +23,7 @@ class SavePostUseCase(
                 accountIdx = accountSecurityPort.getCurrentAccountIdx()!!,
                 tag = it.tag,
                 thumbnailUrl = it.thumbnailUrl,
-                createdDate = LocalDate.now()
+                createdDate = LocalDate.now().atStartOfDay()
             )
         }
         return commandPostPort.savePost(post).idx

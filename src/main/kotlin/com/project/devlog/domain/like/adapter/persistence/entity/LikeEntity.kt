@@ -2,7 +2,7 @@ package com.project.devlog.domain.like.adapter.persistence.entity
 
 import com.project.devlog.domain.account.adapter.persistence.entity.AccountEntity
 import com.project.devlog.domain.post.adapter.persistence.entity.PostEntity
-import com.project.devlog.global.entity.BaseDateEntity
+import com.project.devlog.global.entity.BaseTimeEntity
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 import javax.persistence.*
@@ -26,4 +26,4 @@ class LikeEntity(
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "post_idx")
     val post: PostEntity
-): BaseDateEntity()
+): BaseTimeEntity()

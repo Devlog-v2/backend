@@ -43,6 +43,6 @@ class PostPersistenceAdapter(
         postRepository.findByAccountIdxAndTitleContainingOrderByCreatedAtDesc(accountIdx, title).map { postConverter.toDomain(it) }
 
     override fun queryPostByDateAndAccountIdx(date: LocalDate, accountIdx: UUID): List<Post> =
-        postRepository.findByCreatedAtAndAccountIdx(date, accountIdx).map { postConverter.toDomain(it) }
+        postRepository.findByCreatedAtAndAccountIdx(date.atStartOfDay(), accountIdx).map { postConverter.toDomain(it) }
 
 }

@@ -26,7 +26,7 @@ class QueryAllPostUseCase(
                     writer = findAccountByIdx(it.accountIdx),
                     likeCount = queryLikePort.queryCountByPostIdx(it.idx),
                     thumbnailUrl = it.thumbnailUrl,
-                    createdDate = it.createdDate
+                    createdDate = it.createdDate.toLocalDate()
                 )
             }
 

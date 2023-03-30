@@ -1,6 +1,6 @@
 package com.project.devlog.domain.post
 
-import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 
 data class Post(
@@ -10,5 +10,5 @@ data class Post(
     val accountIdx: UUID,
     val tag: List<String>,
     val thumbnailUrl: String?,
-    val createdDate: LocalDate,
+    val createdDate: LocalDateTime,
 )

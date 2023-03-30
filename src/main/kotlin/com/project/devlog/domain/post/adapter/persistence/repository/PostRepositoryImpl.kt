@@ -25,7 +25,7 @@ class PostRepositoryImpl(
             )
             .join(postEntity.account, accountEntity)
             .where(
-                postEntity.createdAt.after(LocalDate.now().minusYears(1))
+                postEntity.createdAt.after(LocalDate.now().minusYears(1).atStartOfDay())
                     .and(accountEntity.idx.eq(accountIdx))
             )
             .groupBy(postEntity.createdAt)
