@@ -6,7 +6,7 @@ import com.project.devlog.domain.post.adapter.presentation.data.response.PostCal
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
-import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 
 @Repository
@@ -25,7 +25,7 @@ class PostRepositoryImpl(
             )
             .join(postEntity.account, accountEntity)
             .where(
-                postEntity.createdAt.after(LocalDate.now().minusYears(1).atStartOfDay())
+                postEntity.createdAt.after(LocalDateTime.now().minusYears(1))
                     .and(accountEntity.idx.eq(accountIdx))
             )
             .groupBy(postEntity.createdAt)
