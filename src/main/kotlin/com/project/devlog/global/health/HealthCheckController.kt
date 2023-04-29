@@ -9,6 +9,6 @@ class HealthCheckController {
 
     @GetMapping("/")
     fun health(): ResponseEntity<String> =
-        ResponseEntity.ok("health check is good")
+        ResponseEntity.ok("health check is ok")
 
 }
